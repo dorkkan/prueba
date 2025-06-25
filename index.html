@@ -73,10 +73,10 @@
     }
     .productos-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(3, 1fr));
       gap: 20px;
       justify-content: center;
-      max-width: 900px;
+      max-width: 1200px;
       margin: 0 auto;
     }
     .product {
@@ -108,14 +108,15 @@
       bottom: 0;
       width: 100%;
     }
-@media screen and (max-width: 700px) {
-  nav {
-    flex-direction: column;
+@media screen and (max-width: 900px) {
+  .productos-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  nav button {
-    width: 100%;
-    margin: 5px 0;
+@media screen and (max-width: 600px) {
+  .productos-grid {
+    grid-template-columns: 1fr;
   }
 }
   </style>
