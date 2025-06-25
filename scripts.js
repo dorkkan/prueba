@@ -16,6 +16,9 @@ function toggleMenu() {
 
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQBtgCrW6xTwr7XsPuTzW4cVi7G4QWFDK6BnwiZ-fsszgtfyNbdP1Uvr2ZyA3R5dvvO8E4zwKdpaGYF/pub?gid=0&single=true&output=csv';
 
+let grupoActivo = 'todos';
+let subgrupoActivo = 'todos';
+
 function cargarDesdeSheet() {
   fetch(SHEET_CSV_URL)
     .then(res => res.text())
@@ -75,20 +78,13 @@ function cargarDesdeSheet() {
           `<button onclick="filtrarCategoria('${clave}')">${nombreOriginal}</button>`);
       });
 
-      submenu.insertAdjacentHTML('beforeend', `<button onclick="filtrarSubgrupo('todos')">Todos</button>`);
-      subcategoriasMap.forEach((nombreOriginal, clave) => {
-        submenu.insertAdjacentHTML('beforeend',
-          `<button onclick="filtrarSubgrupo('${clave}')">${nombreOriginal}</button>`);
-      });
-
       const ahora = new Date();
       const hora = ahora.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       document.getElementById('ultima-actualizacion').innerText = `⏱ Última actualización: ${hora}`;
     })
     .catch(error => console.error('Error cargando productos:', error));
 }
-let grupoActivo = 'todos';
-let subgrupoActivo = 'todos';
+
 function filtrarCategoria(categoria) {
   grupoActivo = categoria;
   subgrupoActivo = 'todos';
@@ -107,7 +103,6 @@ function filtrarCategoria(categoria) {
     }
   });
 
-  // Armar <select> contextual
   if (categoria !== 'todos' && subKeys.size > 0) {
     subSelect.innerHTML = `<option value="todos">Subcategorías</option>`;
     subKeys.forEach(sg => {
@@ -122,25 +117,6 @@ function filtrarCategoria(categoria) {
   }
 }
 
-  });
-
-  // Generar select de subgrupos
-  if (categoria !== 'todos' && subKeys.size > 0) {
-    subSelect.innerHTML = `<option value="todos">Subcategorías</option>`;
-    subKeys.forEach(sg => {
-      const label = sg.replace(/-/g, ' ').toUpperCase();
-      subSelect.innerHTML += `<option value="${sg}">${label}</option>`;
-    });
-    subSelect.style.display = 'block';
-  } else {
-    subSelect.style.display = 'none';
-    subSelect.value = 'todos';
-    subSelect.innerHTML = `<option value="todos">Subcategorías</option>`;
-    subSelect.value = 'todos';
-  }
-}
-
-
 function filtrarSubgrupo(subgrupo) {
   subgrupoActivo = subgrupo;
 
@@ -153,6 +129,5 @@ function filtrarSubgrupo(subgrupo) {
   });
 }
 
-}
 cargarDesdeSheet();
 setInterval(cargarDesdeSheet, 60000);
