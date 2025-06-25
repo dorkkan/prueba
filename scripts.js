@@ -16,13 +16,6 @@ function toggleMenu() {
 
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQBtgCrW6xTwr7XsPuTzW4cVi7G4QWFDK6BnwiZ-fsszgtfyNbdP1Uvr2ZyA3R5dvvO8E4zwKdpaGYF/pub?gid=0&single=true&output=csv';
 
-function semanasDesde(fecha) {
-  const ahora = new Date();
-  const inicio = new Date(fecha);
-  const msPorSemana = 1000 * 60 * 60 * 24 * 7;
-  return Math.floor((ahora - inicio) / msPorSemana);
-}
-
 function cargarDesdeSheet() {
   fetch(SHEET_CSV_URL)
     .then(res => res.text())
@@ -46,6 +39,7 @@ function cargarDesdeSheet() {
           columnas.map(c => c.replace(/^"+|"+$/g, '').trim());
 
         if (visible.toLowerCase() !== 'sí') return;
+        if (!grupo || !subgrupo) return;
 
         const grupoKey = grupo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase();
         const subKey = subgrupo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase();
@@ -53,15 +47,16 @@ function cargarDesdeSheet() {
         if (!categoriasMap.has(grupoKey)) categoriasMap.set(grupoKey, grupo);
         if (!subcategoriasMap.has(subKey)) subcategoriasMap.set(subKey, subgrupo);
 
-        const precio = parseFloat(lista3);
+        const precio = parseFloat(lista3) || 0;
         const stockTexto = `🧩 Stock ROS: ${stock_ros} | CBA: ${stock_cba}`;
+        const imagenSrc = imagen || 'img/no-image.png';
 
         const whatsappLink = `https://wa.me/549XXXXXXXXXX?text=Hola!%20Quiero%20comprar%20${encodeURIComponent(descripcion)}%20por%20$${precio.toLocaleString('es-AR')}`;
 
         const productoHTML = `
           <div class="product ${grupoKey}" data-subgrupo="${subKey}">
             <h3>${descripcion}</h3>
-            <img src="${imagen}" alt="${descripcion}" loading="lazy">
+            <img src="${imagenSrc}" alt="${descripcion}" loading="lazy">
             <p><small>${grupo} - ${subgrupo}</small></p>
             <p><strong>Precio: $${precio.toLocaleString('es-AR')}</strong></p>
             <p>${stockTexto}</p>
@@ -95,13 +90,18 @@ function cargarDesdeSheet() {
 
 function filtrarCategoria(categoria) {
   document.querySelectorAll('.product').forEach(producto => {
-    producto.style.display = (categoria === 'todos' || producto.classList.contains(categoria)) ? 'flex' : 'none';
+    const visible = (categoria === 'todos' || producto.classList.contains(categoria));
+    producto.style.display = visible ? 'flex' : 'none';
   });
 }
 
 function filtrarSubgrupo(subgrupo) {
-  document.querySelectorAll('.product').forEach(p => {
-    const sg = (p.dataset.subgrupo || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase();
-    p.style.display = (subgrupo === 'todos' || sg === subgrupo) ? 'flex' : 'none';
+  document.querySelectorAll('.product').forEach(producto => {
+    const sg = (producto.dataset.subgrupo || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase();
+    const visible = (subgrupo === 'todos' || sg === subgrupo);
+    producto.style.display = visible ? 'flex' : 'none';
   });
 }
+
+cargarDesdeSheet();
+setInterval(cargarDesdeSheet, 60000);
