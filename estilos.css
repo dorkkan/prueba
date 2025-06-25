@@ -12,7 +12,14 @@ header, footer {
   text-align: center;
   padding: 10px;
 }
-
+.portada img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 400px;
+  object-fit: cover;
+  border-bottom: 2px solid #00ffea;
+}
 nav {
   display: flex;
   justify-content: center;
