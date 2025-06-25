@@ -58,7 +58,7 @@ function cargarDesdeSheet() {
             <h3>${descripcion}</h3>
             <img src="${imagenSrc}" alt="${descripcion}" loading="lazy">
             <p><small>${grupo} - ${subgrupo}</small></p>
-            <p><strong>Precio: $${precio.toLocaleString('es-AR')}</strong></p>
+            <p><strong>Precio: u$d${precio.toLocaleString('es-AR')}</strong></p>
             <p>${stockTexto}</p>
             <a href="${whatsappLink}" target="_blank">
               <button>Comprar</button>
