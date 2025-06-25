@@ -193,3 +193,13 @@ nav button:hover {
     border-top: 1px solid #444;
   }
 }
+
+.subcategorias-select {
+  display: none;
+  margin: 0 auto 15px auto;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  max-width: 250px;
+}
