@@ -87,8 +87,12 @@ function cargarDesdeSheet() {
     })
     .catch(error => console.error('Error cargando productos:', error));
 }
-
+let grupoActivo = 'todos';
+let subgrupoActivo = 'todos';
 function filtrarCategoria(categoria) {
+  grupoActivo = categoria;
+  subgrupoActivo = 'todos';
+
   const productos = document.querySelectorAll('.product');
   const subSelect = document.getElementById('menu-subcategorias');
   const subKeys = new Set();
@@ -96,10 +100,28 @@ function filtrarCategoria(categoria) {
   productos.forEach(p => {
     const pertenece = categoria === 'todos' || p.classList.contains(categoria);
     p.style.display = pertenece ? 'flex' : 'none';
+
     if (pertenece) {
       const sg = p.dataset.subgrupo;
       if (sg) subKeys.add(sg);
     }
+  });
+
+  // Armar <select> contextual
+  if (categoria !== 'todos' && subKeys.size > 0) {
+    subSelect.innerHTML = `<option value="todos">Subcategorías</option>`;
+    subKeys.forEach(sg => {
+      const label = sg.replace(/-/g, ' ').toUpperCase();
+      subSelect.innerHTML += `<option value="${sg}">${label}</option>`;
+    });
+    subSelect.style.display = 'block';
+    subSelect.value = 'todos';
+  } else {
+    subSelect.style.display = 'none';
+    subSelect.innerHTML = '';
+  }
+}
+
   });
 
   // Generar select de subgrupos
@@ -112,19 +134,25 @@ function filtrarCategoria(categoria) {
     subSelect.style.display = 'block';
   } else {
     subSelect.style.display = 'none';
-    subSelect.innerHTML = '';
+    subSelect.value = 'todos';
+    subSelect.innerHTML = `<option value="todos">Subcategorías</option>`;
+    subSelect.value = 'todos';
   }
 }
 
 
 function filtrarSubgrupo(subgrupo) {
+  subgrupoActivo = subgrupo;
+
   const productos = document.querySelectorAll('.product');
   productos.forEach(p => {
-    const esVisible = p.style.display !== 'none';
+    const perteneceGrupo = grupoActivo === 'todos' || p.classList.contains(grupoActivo);
     const sg = p.dataset.subgrupo;
-    const coincide = subgrupo === 'todos' || sg === subgrupo;
-    p.style.display = esVisible && coincide ? 'flex' : 'none';
+    const coincideSubgrupo = subgrupo === 'todos' || sg === subgrupo;
+    p.style.display = (perteneceGrupo && coincideSubgrupo) ? 'flex' : 'none';
   });
+}
+
 }
 cargarDesdeSheet();
 setInterval(cargarDesdeSheet, 60000);
