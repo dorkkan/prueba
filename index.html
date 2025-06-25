@@ -25,15 +25,21 @@
       background-color: #333;
       padding: 10px;
       text-align: center;
+      display: flex;
+      flex-warp: warp;
+      justify-content: centro;
+      gap: 10px
     }
     nav button {
       background-color: transparent;
       color: white;
       border: none;
-      margin: 0 15px;
+      padding: 10px 15px;
       font-size: 16px;
       cursor: pointer;
       font-weight: bold;
+      flex: 1 1 auto;
+      min-width: 100px;
     }
     nav button:hover {
       color: #00ffea;
@@ -104,6 +110,16 @@
       bottom: 0;
       width: 100%;
     }
+@media screen and (max-width: 500px) {
+  nav {
+    flex-direction: column;
+  }
+
+  nav button {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
   </style>
 </head>
 
