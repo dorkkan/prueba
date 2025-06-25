@@ -89,3 +89,7 @@
   cargarDesdeSheet();
   setInterval(cargarDesdeSheet, 60000);
 
+function toggleMenu() {
+  const menu = document.getElementById('main-menu');
+  menu.classList.toggle('active');
+}
