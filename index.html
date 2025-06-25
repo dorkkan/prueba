@@ -105,7 +105,7 @@
             const columnas = linea.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
             if (!columnas || columnas.length < 9) return;
 
-            const [id, nombre, descripcion, imagen, base, desde, aumento, categoria, visible] =
+            const [codigo, descripcion, imagen, grupo, subgrupo, iva, stock_ros, stock_cba, visible] =
               columnas.map(c => c.replace(/^"+|"+$/g, '').trim());
 
             if (visible.trim().toLowerCase() !== 'sí') return;
