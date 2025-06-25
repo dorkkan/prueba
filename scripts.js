@@ -89,19 +89,42 @@ function cargarDesdeSheet() {
 }
 
 function filtrarCategoria(categoria) {
-  document.querySelectorAll('.product').forEach(producto => {
-    const visible = (categoria === 'todos' || producto.classList.contains(categoria));
-    producto.style.display = visible ? 'flex' : 'none';
+  const productos = document.querySelectorAll('.product');
+  const subSelect = document.getElementById('menu-subcategorias');
+  const subKeys = new Set();
+
+  productos.forEach(p => {
+    const pertenece = categoria === 'todos' || p.classList.contains(categoria);
+    p.style.display = pertenece ? 'flex' : 'none';
+    if (pertenece) {
+      const sg = p.dataset.subgrupo;
+      if (sg) subKeys.add(sg);
+    }
   });
+
+  // Generar select de subgrupos
+  if (categoria !== 'todos' && subKeys.size > 0) {
+    subSelect.innerHTML = `<option value="todos">Subcategorías</option>`;
+    subKeys.forEach(sg => {
+      const label = sg.replace(/-/g, ' ').toUpperCase();
+      subSelect.innerHTML += `<option value="${sg}">${label}</option>`;
+    });
+    subSelect.style.display = 'block';
+  } else {
+    subSelect.style.display = 'none';
+    subSelect.innerHTML = '';
+  }
 }
+
 
 function filtrarSubgrupo(subgrupo) {
-  document.querySelectorAll('.product').forEach(producto => {
-    const sg = (producto.dataset.subgrupo || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase();
-    const visible = (subgrupo === 'todos' || sg === subgrupo);
-    producto.style.display = visible ? 'flex' : 'none';
+  const productos = document.querySelectorAll('.product');
+  productos.forEach(p => {
+    const esVisible = p.style.display !== 'none';
+    const sg = p.dataset.subgrupo;
+    const coincide = subgrupo === 'todos' || sg === subgrupo;
+    p.style.display = esVisible && coincide ? 'flex' : 'none';
   });
 }
-
 cargarDesdeSheet();
 setInterval(cargarDesdeSheet, 60000);
