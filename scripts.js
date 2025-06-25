@@ -4,7 +4,6 @@ function showSection(sectionId) {
   });
   document.getElementById(sectionId).classList.add('active');
 
-  // Ocultar menú en móviles después de click
   const menu = document.getElementById('main-menu');
   if (window.innerWidth <= 600 && menu.classList.contains('active')) {
     menu.classList.remove('active');
@@ -12,8 +11,7 @@ function showSection(sectionId) {
 }
 
 function toggleMenu() {
-  const menu = document.getElementById('main-menu');
-  menu.classList.toggle('active');
+  document.getElementById('main-menu').classList.toggle('active');
 }
 
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQBtgCrW6xTwr7XsPuTzW4cVi7G4QWFDK6BnwiZ-fsszgtfyNbdP1Uvr2ZyA3R5dvvO8E4zwKdpaGYF/pub?gid=0&single=true&output=csv';
@@ -44,27 +42,25 @@ function cargarDesdeSheet() {
         const [id, nombre, descripcion, imagen, base, desde, aumento, categoria, visible] =
           columnas.map(c => c.replace(/^"+|"+$/g, '').trim());
 
-        if (visible.trim().toLowerCase() !== 'sí') return;
+        if (visible.toLowerCase() !== 'sí') return;
 
-        const catKey = categoria.normalize('NFD')
-                                 .replace(/[\u0300-\u036f]/g, '')
-                                 .replace(/\s+/g, '')
-                                 .trim()
-                                 .toLowerCase();
-
-        if (!categoriasMap.has(catKey)) {
-          categoriasMap.set(catKey, categoria.trim());
-        }
+        const catKey = categoria.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase();
+        if (!categoriasMap.has(catKey)) categoriasMap.set(catKey, categoria);
 
         const semanas = semanasDesde(desde);
         const precio = Math.round(parseFloat(base) * Math.pow(1 + parseFloat(aumento), semanas));
 
+        const whatsappLink = `https://wa.me/549XXXXXXXXXX?text=Hola!%20Quiero%20comprar%20${encodeURIComponent(nombre)}%20a%20$${precio.toLocaleString('es-AR')}`;
+
         const productoHTML = `
           <div class="product ${catKey}">
             <h3>${nombre}</h3>
-            <img src="${imagen}" alt="${nombre}">
+            <img src="${imagen}" alt="${nombre}" loading="lazy">
             <p>${descripcion}</p>
             <p><strong>Precio: $${precio.toLocaleString('es-AR')}</strong></p>
+            <a href="${whatsappLink}" target="_blank">
+              <button>Comprar</button>
+            </a>
           </div>
         `;
 
@@ -85,9 +81,8 @@ function cargarDesdeSheet() {
 }
 
 function filtrarCategoria(categoria) {
-  const productos = document.querySelectorAll('.product');
-  productos.forEach(producto => {
-    producto.style.display = categoria === 'todos' || producto.classList.contains(categoria) ? 'flex' : 'none';
+  document.querySelectorAll('.product').forEach(producto => {
+    producto.style.display = (categoria === 'todos' || producto.classList.contains(categoria)) ? 'flex' : 'none';
   });
 }
 
