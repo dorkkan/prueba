@@ -17,6 +17,12 @@
   .productos-grid {
     grid-template-columns: 1fr;
   }
+.productos-grid img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
 
   .menu-toggle {
     display: block;
