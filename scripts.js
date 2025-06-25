@@ -29,35 +29,42 @@ function cargarDesdeSheet() {
     .then(csv => {
       const contenedor = document.getElementById('contenedor-productos');
       const menu = document.getElementById('menu-categorias');
+      const submenu = document.getElementById('menu-subcategorias');
       contenedor.innerHTML = '';
       menu.innerHTML = '';
+      submenu.innerHTML = '';
 
       const filas = csv.trim().split('\n').slice(1);
       const categoriasMap = new Map();
+      const subcategoriasMap = new Map();
 
       filas.forEach(linea => {
         const columnas = linea.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-        if (!columnas || columnas.length < 9) return;
+        if (!columnas || columnas.length < 10) return;
 
-        const [id, nombre, descripcion, imagen, base, desde, aumento, categoria, visible] =
+        const [codigo, descripcion, imagen, grupo, subgrupo, iva, lista3, stock_ros, stock_cba, visible] =
           columnas.map(c => c.replace(/^"+|"+$/g, '').trim());
 
         if (visible.toLowerCase() !== 'sí') return;
 
-        const catKey = categoria.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase();
-        if (!categoriasMap.has(catKey)) categoriasMap.set(catKey, categoria);
+        const grupoKey = grupo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase();
+        const subKey = subgrupo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase();
 
-        const semanas = semanasDesde(desde);
-        const precio = Math.round(parseFloat(base) * Math.pow(1 + parseFloat(aumento), semanas));
+        if (!categoriasMap.has(grupoKey)) categoriasMap.set(grupoKey, grupo);
+        if (!subcategoriasMap.has(subKey)) subcategoriasMap.set(subKey, subgrupo);
 
-        const whatsappLink = `https://wa.me/549XXXXXXXXXX?text=Hola!%20Quiero%20comprar%20${encodeURIComponent(nombre)}%20a%20$${precio.toLocaleString('es-AR')}`;
+        const precio = parseFloat(lista3);
+        const stockTexto = `🧩 Stock ROS: ${stock_ros} | CBA: ${stock_cba}`;
+
+        const whatsappLink = `https://wa.me/549XXXXXXXXXX?text=Hola!%20Quiero%20comprar%20${encodeURIComponent(descripcion)}%20por%20$${precio.toLocaleString('es-AR')}`;
 
         const productoHTML = `
-          <div class="product ${catKey}">
-            <h3>${nombre}</h3>
-            <img src="${imagen}" alt="${nombre}" loading="lazy">
-            <p>${descripcion}</p>
+          <div class="product ${grupoKey}" data-subgrupo="${subKey}">
+            <h3>${descripcion}</h3>
+            <img src="${imagen}" alt="${descripcion}" loading="lazy">
+            <p><small>${grupo} - ${subgrupo}</small></p>
             <p><strong>Precio: $${precio.toLocaleString('es-AR')}</strong></p>
+            <p>${stockTexto}</p>
             <a href="${whatsappLink}" target="_blank">
               <button>Comprar</button>
             </a>
@@ -73,6 +80,12 @@ function cargarDesdeSheet() {
           `<button onclick="filtrarCategoria('${clave}')">${nombreOriginal}</button>`);
       });
 
+      submenu.insertAdjacentHTML('beforeend', `<button onclick="filtrarSubgrupo('todos')">Todos</button>`);
+      subcategoriasMap.forEach((nombreOriginal, clave) => {
+        submenu.insertAdjacentHTML('beforeend',
+          `<button onclick="filtrarSubgrupo('${clave}')">${nombreOriginal}</button>`);
+      });
+
       const ahora = new Date();
       const hora = ahora.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       document.getElementById('ultima-actualizacion').innerText = `⏱ Última actualización: ${hora}`;
@@ -86,5 +99,9 @@ function filtrarCategoria(categoria) {
   });
 }
 
-cargarDesdeSheet();
-setInterval(cargarDesdeSheet, 60000);
+function filtrarSubgrupo(subgrupo) {
+  document.querySelectorAll('.product').forEach(p => {
+    const sg = (p.dataset.subgrupo || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase();
+    p.style.display = (subgrupo === 'todos' || sg === subgrupo) ? 'flex' : 'none';
+  });
+}
