@@ -9,6 +9,12 @@
 </head>
 <body>
   <header>
+  <nav id="main-menu">
+    <button onclick="showSection('inicio')">Inicio</button>
+    <button onclick="showSection('productos')">Productos</button>
+    <button onclick="showSection('servicios')">Servicios</button>
+    <button onclick="showSection('contacto')">Contacto</button>
+  </nav>
 <div class="portada">
   <img src="img/LOGO/portada.png" alt="Banner MatiaLR Hardware">
 </div>
@@ -16,12 +22,7 @@
 
   <div class="menu-toggle" onclick="toggleMenu()">☰</div>
 
-  <nav id="main-menu">
-    <button onclick="showSection('inicio')">Inicio</button>
-    <button onclick="showSection('productos')">Productos</button>
-    <button onclick="showSection('servicios')">Servicios</button>
-    <button onclick="showSection('contacto')">Contacto</button>
-  </nav>
+
 
   <div class="container">
     <section id="inicio" class="section active">
