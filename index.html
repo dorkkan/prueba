@@ -1,0 +1,253 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MLR Hardware</title>
+  <link rel="icon" href="img/LOGO/logo.png" type="image/png" />
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #1f1f1f;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      color: #00ffea;
+      margin: 0;
+    }
+    nav {
+      background-color: #333;
+      padding: 10px;
+      text-align: center;
+    }
+    nav button {
+      background-color: transparent;
+      color: white;
+      border: none;
+      margin: 0 15px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    nav button:hover {
+      color: #00ffea;
+    }
+    .container {
+      padding: 20px;
+    }
+    .section {
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+    .categorias-menu {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .categorias-menu button {
+      background-color: #1f1f1f;
+      color: #00ffea;
+      border: 1px solid #00ffea;
+      margin: 5px;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .categorias-menu button:hover {
+      background-color: #00ffea;
+      color: #0f0f0f;
+    }
+    .productos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 20px;
+      justify-content: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .product {
+      background-color: #1f1f1f;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .product img {
+      width: 400px;
+      height: 200px;
+      object-fit: contain;
+      background-color: #0f0f0f;
+      border-radius: 8px;
+      display: block;
+    }
+    .product h3 {
+      color: #00ffea;
+      margin-top: 10px;
+    }
+    footer {
+      background-color: #1f1f1f;
+      text-align: center;
+      padding: 10px;
+      color: #777;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>MatiaLR Hardware</h1>
+    <p>Venta de PC, componentes y servicios de hardware</p>
+  </header>
+
+  <nav>
+    <button onclick="showSection('inicio')">Inicio</button>
+    <button onclick="showSection('productos')">Productos</button>
+    <button onclick="showSection('servicios')">Servicios</button>
+    <button onclick="showSection('contacto')">Contacto</button>
+  </nav>
+
+  <div class="container">
+    <section id="inicio" class="section active">
+      <center>
+        <h2>Bienvenido</h2>
+        <p>Somos tu tienda de confianza en hardware, PC gamers y periféricos.</p>
+      </center>
+    </section>
+
+    <section id="productos" class="section">
+      <h2>Productos</h2>
+      <div class="categorias-menu" id="menu-categorias"></div>
+      <p id="ultima-actualizacion" style="text-align:center; color:#888;"></p>
+      <div class="productos-grid" id="contenedor-productos"></div>
+    </section>
+
+    <section id="servicios" class="section">
+      <h2>Servicios</h2>
+      <ul>
+        <li>Armado de PC a medida</li>
+        <li>Venta de componentes</li>
+        <li>Asesoramiento técnico y upgrades</li>
+      </ul>
+    </section>
+
+    <section id="contacto" class="section">
+      <h2>Contacto</h2>
+      <p>📧 Email: contacto@matialr.com</p>
+      <p>📱 WhatsApp: +54 9 11 1234 5678</p>
+      <p>📸 Instagram: @MatiaLR</p>
+      <p>🎥 YouTube: MatiaLR - Benchmark & Gaming</p>
+    </section>
+  </div>
+
+  <footer>
+    &copy; 2025 MatiaLR Hardware - Todos los derechos reservados
+  </footer>
+
+ <script>
+  function showSection(sectionId) {
+    document.querySelectorAll('.section').forEach(section => {
+      section.classList.remove('active');
+    });
+    document.getElementById(sectionId).classList.add('active');
+  }
+
+  const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQBtgCrW6xTwr7XsPuTzW4cVi7G4QWFDK6BnwiZ-fsszgtfyNbdP1Uvr2ZyA3R5dvvO8E4zwKdpaGYF/pub?gid=0&single=true&output=csv';
+
+  function semanasDesde(fecha) {
+    const ahora = new Date();
+    const inicio = new Date(fecha);
+    const msPorSemana = 1000 * 60 * 60 * 24 * 7;
+    return Math.floor((ahora - inicio) / msPorSemana);
+  }
+
+  function cargarDesdeSheet() {
+    fetch(SHEET_CSV_URL)
+      .then(res => res.text())
+      .then(csv => {
+        const contenedor = document.getElementById('contenedor-productos');
+        const menu = document.getElementById('menu-categorias');
+        contenedor.innerHTML = '';
+        menu.innerHTML = '';
+
+        const filas = csv.trim().split('\n').slice(1);
+        const categoriasMap = new Map();
+
+        filas.forEach(linea => {
+          const columnas = linea.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+          if (!columnas || columnas.length < 9) return;
+
+          const [id, nombre, descripcion, imagen, base, desde, aumento, categoria, visible] =
+            columnas.map(c => c.replace(/^"+|"+$/g, '').trim());
+
+          if (visible.trim().toLowerCase() !== 'sí') return;
+
+          const catKey = categoria.normalize('NFD')
+                                   .replace(/[\u0300-\u036f]/g, '')
+                                   .replace(/\s+/g, '')
+                                   .trim()
+                                   .toLowerCase();
+
+          if (!categoriasMap.has(catKey)) {
+            categoriasMap.set(catKey, categoria.trim());
+          }
+
+          const semanas = semanasDesde(desde);
+          const precio = Math.round(parseFloat(base) * Math.pow(1 + parseFloat(aumento), semanas));
+
+          const productoHTML = `
+            <div class="product ${catKey}">
+              <h3>${nombre}</h3>
+              <img src="${imagen}" alt="${nombre}">
+              <p>${descripcion}</p>
+              <p><strong>Precio: $${precio.toLocaleString('es-AR')}</strong></p>
+            </div>
+          `;
+
+          contenedor.insertAdjacentHTML('beforeend', productoHTML);
+        });
+
+        // Botones de categoría
+        menu.insertAdjacentHTML('beforeend', `<button onclick="filtrarCategoria('todos')">Todos</button>`);
+        categoriasMap.forEach((nombreOriginal, clave) => {
+          menu.insertAdjacentHTML('beforeend',
+            `<button onclick="filtrarCategoria('${clave}')">${nombreOriginal}</button>`);
+        });
+
+        const ahora = new Date();
+        const hora = ahora.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        document.getElementById('ultima-actualizacion').innerText = `⏱ Última actualización: ${hora}`;
+      })
+      .catch(error => console.error('Error cargando productos:', error));
+  }
+
+  function filtrarCategoria(categoria) {
+    const productos = document.querySelectorAll('.product');
+    productos.forEach(producto => {
+      if (categoria === 'todos') {
+        producto.style.display = 'flex';
+      } else {
+        producto.style.display = producto.classList.contains(categoria) ? 'flex' : 'none';
+      }
+    });
+  }
+
+  cargarDesdeSheet();
+  setInterval(cargarDesdeSheet, 60000);
+</script>
+
+</body>
+</html>
