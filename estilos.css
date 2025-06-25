@@ -12,6 +12,7 @@ header, footer {
   text-align: center;
   padding: 10px;
 }
+
 .portada img {
   width: 100%;
   height: auto;
@@ -20,6 +21,7 @@ header, footer {
   object-fit: cover;
   border-bottom: 2px solid #00ffea;
 }
+
 nav {
   display: flex;
   justify-content: center;
@@ -62,6 +64,7 @@ nav button:hover {
   display: block;
 }
 
+/* 🔹 Filtro de Categorías */
 .categorias-menu {
   display: flex;
   gap: 10px;
@@ -83,7 +86,7 @@ nav button:hover {
   background-color: #0056b3;
 }
 
-
+/* 🔹 Filtro de Subcategorías */
 .subcategorias-menu {
   display: flex;
   flex-wrap: wrap;
@@ -105,7 +108,7 @@ nav button:hover {
   background-color: #5a6268;
 }
 
-
+/* 🔹 Tarjetas de Productos */
 .productos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
