@@ -221,3 +221,19 @@ nav button:hover {
   top: 0;
   left: 0;
 }
+.video-trio {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 30px auto 20px;
+  max-width: 100%;
+}
+
+.video-trio iframe {
+  width: 320px;
+  height: 180px;
+  border-radius: 8px;
+  pointer-events: none; /* evita clics accidentales */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
