@@ -44,11 +44,6 @@ nav button:hover {
 
 .menu-toggle {
   display: none;
-  background-color: #333;
-  color: white;
-  padding: 10px;
-  cursor: pointer;
-  text-align: center;
 }
 
 .container {
@@ -63,58 +58,6 @@ nav button:hover {
   display: block;
 }
 
-.categorias-menu {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.categorias-menu button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.categorias-menu button:hover {
-  background-color: #0056b3;
-}
-
-.subcategorias-menu {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  margin-bottom: 15px;
-}
-
-.subcategorias-menu button {
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.subcategorias-menu button:hover {
-  background-color: #5a6268;
-}
-
-.subcategorias-select {
-  display: none;
-  margin: 0 auto 15px auto;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1em;
-  max-width: 250px;
-}
-
 .productos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -125,16 +68,9 @@ nav button:hover {
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   background: #fff;
+  text-align: center;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-}
-
-.product:hover {
-  transform: scale(1.02);
 }
 
 .product img {
@@ -145,10 +81,11 @@ nav button:hover {
 }
 
 .product button {
+  margin-top: 10px;
   background-color: #28a745;
   color: white;
+  padding: 10px 16px;
   border: none;
-  padding: 8px;
   border-radius: 5px;
   cursor: pointer;
 }
@@ -157,20 +94,12 @@ nav button:hover {
   background-color: #218838;
 }
 
-.ultima-actualizacion {
-  text-align: center;
-  color: #888;
-  margin-bottom: 10px;
-}
-
 .video-trio {
   display: flex;
-  gap: 10px;
-  justify-content: center;
   flex-wrap: wrap;
-  margin: 30px auto 20px;
-  max-width: 100%;
-  padding: 0 10px;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px auto;
 }
 
 .video-trio iframe {
@@ -179,7 +108,6 @@ nav button:hover {
   border-radius: 8px;
   pointer-events: none;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  flex-shrink: 0;
 }
 
 @media screen and (max-width: 600px) {
@@ -187,87 +115,13 @@ nav button:hover {
     flex-direction: column;
   }
 
-  nav button {
-    width: 100%;
-    margin: 5px 0;
-  }
-
   .productos-grid {
     grid-template-columns: 1fr;
   }
 
-  .menu-toggle {
-    display: block;
-  }
-
-  #main-menu {
-    display: none;
-    flex-direction: column;
-    background-color: #333;
-    transition: all 0.3s ease;
-  }
-
-  #main-menu.active {
-    display: flex;
-  }
-
-  #main-menu button {
-    width: 100%;
-    margin: 0;
-    border-top: 1px solid #444;
-  }
-
   .video-trio iframe {
-   
-
-
-
-
-
-.cuenta-bancaria {
-  background: #ffffff;
-  border: 2px solid #00ffea;
-  border-radius: 10px;
-  padding: 20px;
-  max-width: 500px;
-  margin: 30px auto;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-.cuenta-bancaria p {
-  margin: 5px 0;
-  font-size: 1.05em;
-}
-
-.boton-transferencia {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 6px;
-  font-size: 1em;
-  cursor: pointer;
-  margin-top: 15px;
-  transition: background-color 0.3s;
-}
-
-.boton-transferencia:hover {
-  background-color: #218838;
-}
-
-
-
-button {
-  background-color: #28a745;
-  color: white;
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-button:hover {
-  background-color: #218838;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+  }
 }
