@@ -1,3 +1,13 @@
+// 🔹 Normaliza texto (quita tildes, espacios y lo pasa a minúsculas)
+function normalizar(texto) {
+  return texto
+    .normalize('NFD') // separa letras de sus tildes
+    .replace(/[\u0300-\u036f]/g, '') // elimina las tildes
+    .trim()
+    .toLowerCase();
+}
+
+// 🔹 Mostrar/ocultar secciones del menú
 function showSection(sectionId) {
   document.querySelectorAll('.section').forEach(section => {
     section.classList.remove('active');
@@ -14,11 +24,14 @@ function toggleMenu() {
   document.getElementById('main-menu').classList.toggle('active');
 }
 
+// 🔹 URL al CSV público de Google Sheets
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQBtgCrW6xTwr7XsPuTzW4cVi7G4QWFDK6BnwiZ-fsszgtfyNbdP1Uvr2ZyA3R5dvvO8E4zwKdpaGYF/pub?gid=0&single=true&output=csv';
 
+// 🔹 Variables activas de filtros
 let grupoActivo = 'todos';
 let subgrupoActivo = 'todos';
 
+// 🔹 Cargar productos desde Sheets
 function cargarDesdeSheet() {
   fetch(SHEET_CSV_URL)
     .then(res => res.text())
@@ -32,29 +45,27 @@ function cargarDesdeSheet() {
 
       const filas = csv.trim().split('\n').slice(1);
       const categoriasMap = new Map();
-      const subcategoriasMap = new Map();
 
       filas.forEach(linea => {
         const columnas = linea.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
         if (!columnas || columnas.length < 10) return;
 
-        const [codigo, descripcion, imagen, grupo, subgrupo, iva, lista3, stock_ros, stock_cba, visible] =
+        let [codigo, descripcion, imagen, grupo, subgrupo, iva, lista3, stock_ros, stock_cba, visible] =
           columnas.map(c => c.replace(/^"+|"+$/g, '').trim());
 
-        if (visible.toLowerCase() !== 'sí') return;
+        if (normalizar(visible) !== 'si') return;
         if (!grupo || !subgrupo) return;
 
-        const grupoKey = grupo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase();
-        const subKey = subgrupo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase();
+        const grupoKey = normalizar(grupo).replace(/\s+/g, '');
+        const subKey = normalizar(subgrupo).replace(/\s+/g, '');
 
-        if (!categoriasMap.has(grupoKey)) categoriasMap.set(grupoKey, grupo);
-        if (!subcategoriasMap.has(subKey)) subcategoriasMap.set(subKey, subgrupo);
+        if (!categoriasMap.has(grupoKey)) categoriasMap.set(grupoKey, new Set());
+        categoriasMap.get(grupoKey).add(subKey);
 
-        const precio = parseFloat(lista3) || 0;
-        const stockTexto = `🧩 Stock ROS: ${stock_ros} | CBA: ${stock_cba}`;
-        const imagenSrc = imagen || 'img/no-image.png';
-
+        const precio = parseFloat(lista3.toString().replace(',', '.')) || 0;
+        const imagenSrc = imagen || `img/${grupo}/${codigo}.jpg`;
         const whatsappLink = `https://wa.me/549XXXXXXXXXX?text=Hola!%20Quiero%20comprar%20${encodeURIComponent(descripcion)}%20por%20$${precio.toLocaleString('es-AR')}`;
+        const stockTexto = `🧩 Stock ROS: ${stock_ros} | CBA: ${stock_cba}`;
 
         const productoHTML = `
           <div class="product ${grupoKey}" data-subgrupo="${subKey}">
@@ -68,16 +79,21 @@ function cargarDesdeSheet() {
             </a>
           </div>
         `;
-
         contenedor.insertAdjacentHTML('beforeend', productoHTML);
       });
 
+      // Botones de categorías
       menu.insertAdjacentHTML('beforeend', `<button onclick="filtrarCategoria('todos')">Todos</button>`);
-      categoriasMap.forEach((nombreOriginal, clave) => {
+      categoriasMap.forEach((subgrupos, categoriaKey) => {
+        const nombreMostrar = categoriaKey.charAt(0).toUpperCase() + categoriaKey.slice(1);
         menu.insertAdjacentHTML('beforeend',
-          `<button onclick="filtrarCategoria('${clave}')">${nombreOriginal}</button>`);
+          `<button onclick="filtrarCategoria('${categoriaKey}')">${nombreMostrar}</button>`);
       });
 
+      // Ocultar select al cargar
+      submenu.style.display = 'none';
+
+      // Mostrar hora de actualización
       const ahora = new Date();
       const hora = ahora.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       document.getElementById('ultima-actualizacion').innerText = `⏱ Última actualización: ${hora}`;
@@ -85,6 +101,7 @@ function cargarDesdeSheet() {
     .catch(error => console.error('Error cargando productos:', error));
 }
 
+// 🔹 Filtrar por grupo (categoría)
 function filtrarCategoria(categoria) {
   grupoActivo = categoria;
   subgrupoActivo = 'todos';
@@ -117,17 +134,19 @@ function filtrarCategoria(categoria) {
   }
 }
 
+// 🔹 Filtrar por subgrupo
 function filtrarSubgrupo(subgrupo) {
   subgrupoActivo = subgrupo;
-
   const productos = document.querySelectorAll('.product');
+
   productos.forEach(p => {
-    const perteneceGrupo = grupoActivo === 'todos' || p.classList.contains(grupoActivo);
+    const enGrupo = grupoActivo === 'todos' || p.classList.contains(grupoActivo);
     const sg = p.dataset.subgrupo;
-    const coincideSubgrupo = subgrupo === 'todos' || sg === subgrupo;
-    p.style.display = (perteneceGrupo && coincideSubgrupo) ? 'flex' : 'none';
+    const coincide = subgrupo === 'todos' || sg === subgrupo;
+    p.style.display = (enGrupo && coincide) ? 'flex' : 'none';
   });
 }
 
+// 🔹 Cargar al abrir la página y actualizar cada 60s
 cargarDesdeSheet();
 setInterval(cargarDesdeSheet, 60000);
