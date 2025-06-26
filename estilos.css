@@ -255,3 +255,19 @@ nav button:hover {
 .boton-transferencia:hover {
   background-color: #218838;
 }
+
+
+
+button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #218838;
+}
