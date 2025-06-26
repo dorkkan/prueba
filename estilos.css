@@ -1,9 +1,4 @@
 /* 🔸 Escala global */
-.zoom-wrapper {
-  transform: scale(0.9);
-  transform-origin: top center;
-
-}
 
 /* 🔸 Estilo base */
 body {
@@ -59,9 +54,6 @@ nav button:hover {
   text-align: center;
 }
 
-.container {
-  padding: 20px;
-}
 
 .section {
   display: none;
