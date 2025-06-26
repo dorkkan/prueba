@@ -1,8 +1,8 @@
-// 🔹 Normaliza texto (quita tildes, espacios y lo pasa a minúsculas)
+// 🔧 Función para normalizar texto (elimina tildes, espacios, pasa a minúsculas)
 function normalizar(texto) {
   return texto
-    .normalize('NFD') // separa letras de sus tildes
-    .replace(/[\u0300-\u036f]/g, '') // elimina las tildes
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
     .trim()
     .toLowerCase();
 }
@@ -24,14 +24,12 @@ function toggleMenu() {
   document.getElementById('main-menu').classList.toggle('active');
 }
 
-// 🔹 URL al CSV público de Google Sheets
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQBtgCrW6xTwr7XsPuTzW4cVi7G4QWFDK6BnwiZ-fsszgtfyNbdP1Uvr2ZyA3R5dvvO8E4zwKdpaGYF/pub?gid=0&single=true&output=csv';
 
-// 🔹 Variables activas de filtros
-let grupoActivo = 'todos';
-let subgrupoActivo = 'todos';
+let grupoActivo = null;
+let subgrupoActivo = null;
 
-// 🔹 Cargar productos desde Sheets
+// 🔄 Carga inicial desde Sheets
 function cargarDesdeSheet() {
   fetch(SHEET_CSV_URL)
     .then(res => res.text())
@@ -47,11 +45,10 @@ function cargarDesdeSheet() {
       const categoriasMap = new Map();
 
       filas.forEach(linea => {
-       const columnas = linea.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"+|"+$/g, '').trim());
+        const columnas = linea.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"+|"+$/g, '').trim());
         if (!columnas || columnas.length < 10) return;
 
-        let [codigo, descripcion, imagen, grupo, subgrupo, iva, lista3, stock_ros, stock_cba, visible] =
-          columnas.map(c => c.replace(/^"+|"+$/g, '').trim());
+        let [codigo, descripcion, imagen, grupo, subgrupo, iva, lista3, stock_ros, stock_cba, visible] = columnas;
 
         if (normalizar(visible) !== 'si') return;
         if (!grupo || !subgrupo) return;
@@ -68,7 +65,7 @@ function cargarDesdeSheet() {
         const stockTexto = `🧩 Stock ROS: ${stock_ros} | CBA: ${stock_cba}`;
 
         const productoHTML = `
-          <div class="product ${grupoKey}" data-subgrupo="${subKey}">
+          <div class="product ${grupoKey}" data-subgrupo="${subKey}" style="display: none;">
             <h3>${descripcion}</h3>
             <img src="${imagenSrc}" alt="${descripcion}" loading="lazy">
             <p><small>${grupo} - ${subgrupo}</small></p>
@@ -79,21 +76,19 @@ function cargarDesdeSheet() {
             </a>
           </div>
         `;
+
         contenedor.insertAdjacentHTML('beforeend', productoHTML);
       });
 
-      // Botones de categorías
+      // Construir botones de categorías
       menu.insertAdjacentHTML('beforeend', `<button onclick="filtrarCategoria('todos')">Todos</button>`);
-      categoriasMap.forEach((subgrupos, categoriaKey) => {
-        const nombreMostrar = categoriaKey.charAt(0).toUpperCase() + categoriaKey.slice(1);
-        menu.insertAdjacentHTML('beforeend',
-          `<button onclick="filtrarCategoria('${categoriaKey}')">${nombreMostrar}</button>`);
+      categoriasMap.forEach((subgrupos, clave) => {
+        const nombre = clave.charAt(0).toUpperCase() + clave.slice(1);
+        menu.insertAdjacentHTML('beforeend', `<button onclick="filtrarCategoria('${clave}')">${nombre}</button>`);
       });
 
-      // Ocultar select al cargar
       submenu.style.display = 'none';
 
-      // Mostrar hora de actualización
       const ahora = new Date();
       const hora = ahora.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       document.getElementById('ultima-actualizacion').innerText = `⏱ Última actualización: ${hora}`;
@@ -101,10 +96,10 @@ function cargarDesdeSheet() {
     .catch(error => console.error('Error cargando productos:', error));
 }
 
-// 🔹 Filtrar por grupo (categoría)
+// 🔁 Filtro por grupo
 function filtrarCategoria(categoria) {
   grupoActivo = categoria;
-  subgrupoActivo = 'todos';
+  subgrupoActivo = null;
 
   const productos = document.querySelectorAll('.product');
   const subSelect = document.getElementById('menu-subcategorias');
@@ -112,8 +107,7 @@ function filtrarCategoria(categoria) {
 
   productos.forEach(p => {
     const pertenece = categoria === 'todos' || p.classList.contains(categoria);
-    p.style.display = pertenece ? 'flex' : 'none';
-
+    p.style.display = 'none';
     if (pertenece) {
       const sg = p.dataset.subgrupo;
       if (sg) subKeys.add(sg);
@@ -121,20 +115,23 @@ function filtrarCategoria(categoria) {
   });
 
   if (categoria !== 'todos' && subKeys.size > 0) {
-    subSelect.innerHTML = `<option value="todos">Subcategorías</option>`;
+    subSelect.innerHTML = `<option value="">Elija una subcategoría</option><option value="todos">Mostrar todos</option>`;
     subKeys.forEach(sg => {
       const label = sg.replace(/-/g, ' ').toUpperCase();
       subSelect.innerHTML += `<option value="${sg}">${label}</option>`;
     });
     subSelect.style.display = 'block';
-    subSelect.value = 'todos';
   } else {
     subSelect.style.display = 'none';
     subSelect.innerHTML = '';
+    productos.forEach(p => {
+      const pertenece = categoria === 'todos' || p.classList.contains(categoria);
+      p.style.display = pertenece ? 'flex' : 'none';
+    });
   }
 }
 
-// 🔹 Filtrar por subgrupo
+// 🔁 Filtro por subgrupo
 function filtrarSubgrupo(subgrupo) {
   subgrupoActivo = subgrupo;
   const productos = document.querySelectorAll('.product');
@@ -147,6 +144,6 @@ function filtrarSubgrupo(subgrupo) {
   });
 }
 
-// 🔹 Cargar al abrir la página y actualizar cada 60s
+// ⏱ Carga automática inicial y actualización cada 60s
 cargarDesdeSheet();
 setInterval(cargarDesdeSheet, 60000);
