@@ -228,3 +228,8 @@ nav button:hover {
     aspect-ratio: 16/9;
   }
 }
+.sin-stock {
+  color: red;
+  font-weight: bold;
+  text-transform: uppercase;
+}
