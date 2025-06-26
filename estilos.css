@@ -1,8 +1,8 @@
 /* 🔸 Escala global */
 .zoom-wrapper {
-  transform: scale(0.8);
+  transform: scale(0.9);
   transform-origin: top center;
-  width: 100%;
+  width: 150%;
 }
 
 /* 🔸 Estilo base */
