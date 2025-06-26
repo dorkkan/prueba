@@ -164,5 +164,5 @@ if (slider) {
     let src = videos[current].src;
     videos[current].src = '';
     setTimeout(() => { videos[current].src = src; }, 100);
-  }, 10000); // 10 segundos
+  }, 60000); // 60 segundos
 }
