@@ -166,3 +166,13 @@ if (slider) {
     setTimeout(() => { videos[current].src = src; }, 100);
   }, 60000); // 60 segundos
 }
+
+
+
+
+function enviarWhatsApp(producto, codigo) {
+  const numero = "549XXXXXXXXXX"; // ← poné tu número real
+  const mensaje = `Hola, quiero comprar el producto *${producto}* (Código: ${codigo}) y pagar por transferencia. ¿Está disponible?`;
+  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+  window.open(url, "_blank");
+}
