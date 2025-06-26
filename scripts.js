@@ -147,3 +147,22 @@ function filtrarSubgrupo(subgrupo) {
 // ⏱ Carga automática inicial y actualización cada 60s
 cargarDesdeSheet();
 setInterval(cargarDesdeSheet, 60000);
+
+
+
+// 🎞 Slider de videos YouTube que cambia cada 10 segundos
+const slider = document.getElementById('video-slider');
+if (slider) {
+  const videos = slider.querySelectorAll('iframe');
+  let current = 0;
+
+  setInterval(() => {
+    videos[current].style.display = 'none';
+    current = (current + 1) % videos.length;
+    videos[current].style.display = 'block';
+    // Reiniciar autoplay al cambiar
+    let src = videos[current].src;
+    videos[current].src = '';
+    setTimeout(() => { videos[current].src = src; }, 100);
+  }, 10000); // 10 segundos
+}
