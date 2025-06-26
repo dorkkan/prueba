@@ -12,7 +12,7 @@ function showSection(id) {
 }
 
 function enviarWhatsApp(nombre, codigo) {
-  const numero = '549XXXXXXXXXX'; // ← Reemplazar por tu número real
+  const numero = '5493472643359'; // ← Reemplazar por tu número real
   const mensaje = `Hola! Quiero comprar el producto *${nombre}* (Código: ${codigo}) y pagarlo por transferencia. ¿Está disponible?`;
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
   window.open(url, "_blank");
