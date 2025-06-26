@@ -1,6 +1,3 @@
-/* 🔸 Escala global */
-
-/* 🔸 Estilo base */
 body {
   font-family: sans-serif;
   margin: 0;
@@ -17,10 +14,10 @@ header, footer {
 
 .portada img {
   width: 100%;
-  max-width: 800px;
   height: auto;
   display: block;
-  margin: 0 auto;
+  max-height: 330px;
+  object-fit: cover;
   border-bottom: 2px solid #00ffea;
 }
 
@@ -54,6 +51,9 @@ nav button:hover {
   text-align: center;
 }
 
+.container {
+  padding: 20px;
+}
 
 .section {
   display: none;
@@ -63,7 +63,6 @@ nav button:hover {
   display: block;
 }
 
-/* 🔹 Filtro de Categorías */
 .categorias-menu {
   display: flex;
   gap: 10px;
@@ -85,7 +84,6 @@ nav button:hover {
   background-color: #0056b3;
 }
 
-/* 🔹 Filtro de Subcategorías */
 .subcategorias-menu {
   display: flex;
   flex-wrap: wrap;
@@ -107,7 +105,16 @@ nav button:hover {
   background-color: #5a6268;
 }
 
-/* 🔹 Tarjetas de Productos */
+.subcategorias-select {
+  display: none;
+  margin: 0 auto 15px auto;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  max-width: 250px;
+}
+
 .productos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -156,38 +163,6 @@ nav button:hover {
   margin-bottom: 10px;
 }
 
-/* 🔹 Select de Subcategorías */
-.subcategorias-select {
-  display: none;
-  margin: 0 auto 15px auto;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1em;
-  max-width: 250px;
-}
-
-/* 🔸 Video en slider (no usado ahora, pero se conserva por si lo reactivás) */
-.video-slider {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  position: relative;
-  aspect-ratio: 16/9;
-  max-width: 100%;
-  margin-top: 20px;
-}
-
-.video-slider iframe {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-/* 🔸 Videos en paralelo */
 .video-trio {
   display: flex;
   gap: 10px;
@@ -207,7 +182,6 @@ nav button:hover {
   flex-shrink: 0;
 }
 
-/* 🔸 Responsive para móviles */
 @media screen and (max-width: 600px) {
   nav {
     flex-direction: column;
@@ -244,9 +218,4 @@ nav button:hover {
   }
 
   .video-trio iframe {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 16/9;
-  }
-}
+   
