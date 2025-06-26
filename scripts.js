@@ -47,7 +47,7 @@ function cargarDesdeSheet() {
       const categoriasMap = new Map();
 
       filas.forEach(linea => {
-        const columnas = linea.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+       const columnas = linea.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"+|"+$/g, '').trim());
         if (!columnas || columnas.length < 10) return;
 
         let [codigo, descripcion, imagen, grupo, subgrupo, iva, lista3, stock_ros, stock_cba, visible] =
