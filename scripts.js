@@ -1,6 +1,6 @@
 console.log("👋 Hola curioso! Este sitio fue desarrollado por Elias Vanzetti + Copilot ✨ | MLR Hardware - 2025");
 // Desarrollado por Elias Vanzetti + Copilot ✨ // MLR Hardware - 2025 🚀
-// Desarrollado por Elias Vanzetti + Copilot ✨ // MLR Hardware - 2025 🚀
+
 const URL_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBtgCrW6xTwr7XsPuTzW4cVi7G4QWFDK6BnwiZ-fsszgtfyNbdP1Uvr2ZyA3R5dvvO8E4zwKdpaGYF/pub?gid=0&single=true&output=csv";
 
 let productosOriginales = [];
@@ -18,9 +18,9 @@ function enviarWhatsApp(nombre, codigo) {
   const numero = '5493472643359'; // ← tu número real
   const mensaje = `Hola! Quiero comprar el producto *${nombre}* (Código: ${codigo}) y pagarlo por transferencia. ¿Está disponible?`;
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+  console.log("📤 Enviando a WhatsApp:", url);
   window.open(url, "_blank");
 }
-
 
 function cargarProductosDesdeCSV() {
   fetch(URL_CSV)
@@ -34,8 +34,8 @@ function cargarProductosDesdeCSV() {
         const imagen = celdas[2];
         const grupo = celdas[3];
         const subgrupo = celdas[4];
-        const iva = parseFloat(celdas[5].replace(",", ".") || 0);
-        const lista = parseFloat(celdas[6].replace(",", ".") || 0);
+        const iva = parseFloat(celdas[5]?.replace(",", ".") || 0);
+        const lista = parseFloat(celdas[6]?.replace(",", ".") || 0);
         const stockRos = parseInt(celdas[7]) || 0;
         const stockCba = parseInt(celdas[8]) || 0;
         const visible = celdas[9]?.trim().toUpperCase() === "SI";
@@ -95,10 +95,9 @@ function mostrarProductos(productos) {
 
   productos.forEach(p => {
     const stockTexto = p.stock > 0 ? `Stock: ${p.stock} unidad${p.stock > 1 ? "es" : ""}` : `<span class="sin-stock">SIN STOCK</span>`;
-    const boton =
-      p.stock > 0
-        ? `<button onclick="enviarWhatsApp(${JSON.stringify(p.descripcion)}, ${JSON.stringify(p.codigo)})">Comprar por Transferencia</button>`
-        : "";
+    const boton = (p.stock > 0 && p.descripcion && p.codigo)
+      ? `<button onclick='enviarWhatsApp(${JSON.stringify(p.descripcion)}, ${JSON.stringify(p.codigo)})'>Comprar por Transferencia</button>`
+      : "";
 
     contenedor.innerHTML += `
       <div class="product">
