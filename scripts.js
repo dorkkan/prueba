@@ -4,6 +4,7 @@ console.log("👋 Hola curioso! Este sitio fue desarrollado por Elias Vanzetti +
 const URL_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBtgCrW6xTwr7XsPuTzW4cVi7G4QWFDK6BnwiZ-fsszgtfyNbdP1Uvr2ZyA3R5dvvO8E4zwKdpaGYF/pub?gid=0&single=true&output=csv";
 
 let productosOriginales = [];
+let productosFiltradosPorCategoria = [];
 
 function toggleMenu() {
   document.getElementById("main-menu").classList.toggle("active");
@@ -15,7 +16,7 @@ function showSection(id) {
 }
 
 function enviarWhatsApp(nombre, codigo) {
-  const numero = '5493472643359'; // ← tu número real
+  const numero = '5493472643359';
   const mensaje = `Hola! Quiero comprar el producto *${nombre}* (Código: ${codigo}) y pagarlo por transferencia. ¿Está disponible?`;
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
   console.log("📤 Enviando a WhatsApp:", url);
@@ -70,22 +71,22 @@ function construirMenus() {
 }
 
 function filtrarCategoria(categoria) {
-  const filtrados = productosOriginales.filter(p => p.grupo === categoria);
-  construirSubgrupos(filtrados);
-  mostrarProductos(filtrados);
+  productosFiltradosPorCategoria = productosOriginales.filter(p => p.grupo === categoria);
+  construirSubgrupos(productosFiltradosPorCategoria);
+  mostrarProductos(productosFiltradosPorCategoria);
 }
 
 function construirSubgrupos(lista) {
   const subgrupos = [...new Set(lista.map(p => p.subgrupo))];
   const contenedorSub = document.getElementById("menu-subcategorias");
-  contenedorSub.innerHTML = `<button onclick="mostrarProductos(lista)">Todos</button>`;
+  contenedorSub.innerHTML = `<button onclick="mostrarProductos(productosFiltradosPorCategoria)">Todos</button>`;
   subgrupos.forEach(sub => {
-    contenedorSub.innerHTML += `<button onclick="filtrarSubgrupo('${sub}', lista)"> ${sub} </button>`;
+    contenedorSub.innerHTML += `<button onclick="filtrarSubgrupo('${sub}')">${sub}</button>`;
   });
 }
 
-function filtrarSubgrupo(subgrupo, lista) {
-  const filtrados = productosOriginales.filter(p => p.subgrupo === subgrupo);
+function filtrarSubgrupo(subgrupo) {
+  const filtrados = productosFiltradosPorCategoria.filter(p => p.subgrupo === subgrupo);
   mostrarProductos(filtrados);
 }
 
@@ -94,7 +95,10 @@ function mostrarProductos(productos) {
   contenedor.innerHTML = "";
 
   productos.forEach(p => {
-    const stockTexto = p.stock > 0 ? `Stock: ${p.stock} unidad${p.stock > 1 ? "es" : ""}` : `<span class="sin-stock">SIN STOCK</span>`;
+    const stockTexto = p.stock > 0
+      ? `Stock: ${p.stock} unidad${p.stock > 1 ? "es" : ""}`
+      : `<span class="sin-stock">SIN STOCK</span>`;
+
     const boton = (p.stock > 0 && p.descripcion && p.codigo)
       ? `<button onclick='enviarWhatsApp(${JSON.stringify(p.descripcion)}, ${JSON.stringify(p.codigo)})'>Comprar por Transferencia</button>`
       : "";
