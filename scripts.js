@@ -1,9 +1,9 @@
-console.log("👋 Hola curioso! Este sitio fue desarrollado por Elias Vanzetti + Copilot ✨ | MLR Hardware - 2025");
+console.log("👋 Sitio desarrollado por Elias Vanzetti + Copilot ✨ | MLR Hardware - 2025");
 
 const URL_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBtgCrW6xTwr7XsPuTzW4cVi7G4QWFDK6BnwiZ-fsszgtfyNbdP1Uvr2ZyA3R5dvvO8E4zwKdpaGYF/pub?gid=0&single=true&output=csv";
-
 let productosOriginales = [];
 let productosFiltradosPorCategoria = [];
+let COSTE_ENVIO = 1500; // Valor que podés modificar
 
 function toggleMenu() {
   document.getElementById("main-menu").classList.toggle("active");
@@ -14,38 +14,16 @@ function showSection(id) {
   document.getElementById(id).classList.add("active");
 }
 
-function agregarAlCarrito(nombre, codigo, precio) {
-  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-  carrito.push({ nombre, codigo, precio });
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-  renderizarCarrito();
-  alert(`${nombre} fue agregado al carrito ✅`);
-let COSTE_ENVIO = 1500;
-
 function toggleCarritoBarra() {
   const panel = document.getElementById("carrito-contenido");
   panel.style.display = panel.style.display === "block" ? "none" : "block";
 }
 
-}
-
-function renderizarCarrito() {
-  const contenedor = document.getElementById("carrito-lista");
-  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-  if (!contenedor) return;
-
-  if (carrito.length === 0) {
-    contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
-    return;
-  }
-
-  contenedor.innerHTML = "<ul>" + carrito.map((p, i) =>
-    `<li>
-      ${p.nombre} (Código: ${p.codigo}) - $${Number(p.precio).toLocaleString()}
-      <button onclick="eliminarDelCarrito(${i})">❌</button>
-    </li>`
-  ).join("") + "</ul>";
+function agregarAlCarrito(nombre, codigo, precio) {
+  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  carrito.push({ nombre, codigo, precio });
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+  renderizarCarrito();
 }
 
 function eliminarDelCarrito(indice) {
@@ -60,6 +38,32 @@ function vaciarCarrito() {
   renderizarCarrito();
 }
 
+function renderizarCarrito() {
+  const contenedor = document.getElementById("carrito-lista");
+  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+  if (!contenedor) return;
+
+  const cantidadSpan = document.getElementById("carrito-cantidad");
+  cantidadSpan.textContent = carrito.length;
+
+  if (carrito.length === 0) {
+    contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
+    document.getElementById("carrito-total").textContent = "0";
+    document.getElementById("carrito-envio").textContent = COSTE_ENVIO.toLocaleString();
+    return;
+  }
+
+  let total = carrito.reduce((acc, item) => acc + Number(item.precio), 0);
+  document.getElementById("carrito-total").textContent = total.toLocaleString();
+  document.getElementById("carrito-envio").textContent = COSTE_ENVIO.toLocaleString();
+
+  contenedor.innerHTML = "<ul>" + carrito.map((p, i) =>
+    `<li>${p.nombre} - $${Number(p.precio).toLocaleString()}
+      <button onclick="eliminarDelCarrito(${i})">❌</button></li>`
+  ).join("") + "</ul>";
+}
+
 function enviarCarritoPorWhatsApp() {
   const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
@@ -69,22 +73,19 @@ function enviarCarritoPorWhatsApp() {
   }
 
   const numero = "5493472643359";
- const total = carrito.reduce((acc, item) => acc + Number(item.precio), 0);
-
-const mensaje = [
-  "Hola! Quiero comprar los siguientes productos por transferencia:\n",
-  ...carrito.map(p =>
-    `🔹 ${p.nombre} (Código: ${p.codigo}) - $${Number(p.precio).toLocaleString()}`
-  ),
-  `\nTOTAL: $${total.toLocaleString()}`,
-  "\n¿Están disponibles?"
-].join("\n");
-
+  const total = carrito.reduce((acc, item) => acc + Number(item.precio), 0);
+  const mensaje = [
+    "Hola! Quiero comprar los siguientes productos por transferencia:\n",
+    ...carrito.map(p =>
+      `🔹 ${p.nombre} (Código: ${p.codigo}) - $${Number(p.precio).toLocaleString()}`
+    ),
+    `\nTOTAL: $${total.toLocaleString()}`,
+    `Coste de envío: $${COSTE_ENVIO.toLocaleString()}`,
+    "\n¿Están disponibles?"
+  ].join("\n");
 
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
   window.open(url, "_blank");
-
-  // localStorage.removeItem("carrito"); // ← Descomentá si querés vaciar el carrito luego de enviar
 }
 
 function cargarProductosDesdeCSV() {
@@ -133,57 +134,4 @@ function construirMenus() {
   const contenedorCat = document.getElementById("menu-categorias");
   contenedorCat.innerHTML = `<button onclick="mostrarProductos(productosOriginales)">Todas</button>`;
   categorias.forEach(cat => {
-    contenedorCat.innerHTML += `<button onclick="filtrarCategoria('${cat}')">${cat}</button>`;
-  });
-}
-
-function filtrarCategoria(categoria) {
-  productosFiltradosPorCategoria = productosOriginales.filter(p => p.grupo === categoria);
-  construirSubgrupos(productosFiltradosPorCategoria);
-  mostrarProductos(productosFiltradosPorCategoria);
-}
-
-function construirSubgrupos(lista) {
-  const subgrupos = [...new Set(lista.map(p => p.subgrupo))];
-  const contenedorSub = document.getElementById("menu-subcategorias");
-  contenedorSub.innerHTML = `<button onclick="mostrarProductos(productosFiltradosPorCategoria)">Todos</button>`;
-  subgrupos.forEach(sub => {
-    contenedorSub.innerHTML += `<button onclick="filtrarSubgrupo('${sub}')">${sub}</button>`;
-  });
-}
-
-function filtrarSubgrupo(subgrupo) {
-  const filtrados = productosFiltradosPorCategoria.filter(p => p.subgrupo === subgrupo);
-  mostrarProductos(filtrados);
-}
-
-function mostrarProductos(productos) {
-  const contenedor = document.getElementById("contenedor-productos");
-  contenedor.innerHTML = "";
-
-  productos.forEach(p => {
-    const stockTexto = p.stock > 0
-      ? `Stock: ${p.stock} unidad${p.stock > 1 ? "es" : ""}`
-      : `<span class="sin-stock">SIN STOCK</span>`;
-
-    const boton = (p.stock > 0 && p.descripcion && p.codigo)
-      ? `<button onclick='agregarAlCarrito(${JSON.stringify(p.descripcion)}, ${JSON.stringify(p.codigo)}, ${p.precioFinal})'>Agregar al carrito</button>`
-      : "";
-
-    contenedor.innerHTML += `
-      <div class="product">
-        <img src="${p.imagen}" alt="${p.descripcion}">
-        <h3>${p.descripcion}</h3>
-        <p><strong>$${p.precioFinal.toLocaleString()}</strong></p>
-        <p>${stockTexto}</p>
-        ${boton}
-      </div>
-    `;
-  });
-
-  const fecha = new Date();
-  document.getElementById("ultima-actualizacion").textContent =
-    "Última actualización: " + fecha.toLocaleDateString() + " " + fecha.toLocaleTimeString();
-}
-
-window.onload = cargarProductosDesdeCSV;
+    contenedorCat.innerHTML += `<button onclick="filtrarCategoria
