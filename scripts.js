@@ -20,6 +20,13 @@ function agregarAlCarrito(nombre, codigo, precio) {
   localStorage.setItem("carrito", JSON.stringify(carrito));
   renderizarCarrito();
   alert(`${nombre} fue agregado al carrito ✅`);
+let COSTE_ENVIO = 1500;
+
+function toggleCarritoBarra() {
+  const panel = document.getElementById("carrito-contenido");
+  panel.style.display = panel.style.display === "block" ? "none" : "block";
+}
+
 }
 
 function renderizarCarrito() {
