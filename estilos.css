@@ -210,3 +210,50 @@ nav button:hover {
   font-weight: bold;
   text-transform: uppercase;
 }
+
+
+#carrito-wrapper {
+  position: relative;
+}
+
+#carrito-toggle {
+  background-color: #ffc107;
+  color: #222;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#carrito-contenido {
+  display: none;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: #fff;
+  color: #222;
+  width: 300px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  border-radius: 6px;
+  z-index: 999;
+  padding: 10px;
+}
+
+#carrito-contenido ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+}
+
+#carrito-contenido li {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+#carrito-contenido button {
+  margin-top: 6px;
+  width: 100%;
+}
