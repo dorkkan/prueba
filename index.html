@@ -17,19 +17,20 @@
       <button onclick="showSection('servicios')">Servicios</button>
       <button onclick="showSection('contacto')">Contacto</button>
 
-<div id="carrito-wrapper">
-  <button onclick="toggleCarritoBarra()" id="carrito-toggle">🛒 (<span id="carrito-cantidad">0</span>)</button>
-  <div id="carrito-contenido" class="carrito-contenido">
-    <div id="carrito-lista"></div>
-    <div class="carrito-totales">
-      <p>Total productos: $<span id="carrito-total">0</span></p>
-      <p>Coste de envío: $<span id="carrito-envio">1500</span></p>
-    </div>
-    <button onclick="vaciarCarrito()">Vaciar carrito</button>
-    <button onclick="enviarCarritoPorWhatsApp()">Enviar por WhatsApp</button>
-  </div>
-</div>
-
+      <div id="carrito-wrapper">
+        <button onclick="toggleCarritoBarra()" id="carrito-toggle">
+          🛒 (<span id="carrito-cantidad">0</span>)
+        </button>
+        <div id="carrito-contenido">
+          <div id="carrito-lista"></div>
+          <div class="carrito-totales">
+            <p>Total productos: $<span id="carrito-total">0</span></p>
+            <p>Coste de envío: $<span id="carrito-envio">1500</span></p>
+          </div>
+          <button onclick="vaciarCarrito()">Vaciar carrito</button>
+          <button onclick="enviarCarritoPorWhatsApp()">Enviar por WhatsApp</button>
+        </div>
+      </div>
     </nav>
     <div class="portada">
       <img src="img/LOGO/portada.png" alt="Banner MatiaLR Hardware">
@@ -50,8 +51,6 @@
       <div class="subcategorias-menu" id="menu-subcategorias"></div>
       <div class="productos-grid" id="contenedor-productos"></div>
       <p id="ultima-actualizacion" class="ultima-actualizacion"></p>
-
-     
     </section>
 
     <section id="servicios" class="section">
@@ -76,7 +75,6 @@
     &copy; 2025 MatiaLR Hardware - Todos los derechos reservados
   </footer>
 
-  <button onclick="enviarCarritoPorWhatsApp()" id="boton-finalizar">🛒 Finalizar compra</button>
   <script src="scripts.js"></script>
 </body>
 </html>
