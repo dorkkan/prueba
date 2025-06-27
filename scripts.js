@@ -62,13 +62,17 @@ function enviarCarritoPorWhatsApp() {
   }
 
   const numero = "5493472643359";
-  const mensaje = [
-    "Hola! Quiero comprar los siguientes productos por transferencia:\n",
-    ...carrito.map(p =>
-      `🔹 ${p.nombre} (Código: ${p.codigo}) - $${Number(p.precio).toLocaleString()}`
-    ),
-    "\n¿Están disponibles?"
-  ].join("\n");
+ const total = carrito.reduce((acc, item) => acc + Number(item.precio), 0);
+
+const mensaje = [
+  "Hola! Quiero comprar los siguientes productos por transferencia:\n",
+  ...carrito.map(p =>
+    `🔹 ${p.nombre} (Código: ${p.codigo}) - $${Number(p.precio).toLocaleString()}`
+  ),
+  `\nTOTAL: $${total.toLocaleString()}`,
+  "\n¿Están disponibles?"
+].join("\n");
+
 
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
   window.open(url, "_blank");
