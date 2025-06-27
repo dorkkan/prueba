@@ -1,6 +1,6 @@
-console.log("👋 Hola curioso! Este sitio fue desarrollado por Elias + Copilot ✨ | MLR Hardware - 2025");
-// Desarrollado por Elias + Copilot ✨ // MLR Hardware - 2025 🚀
-// Desarrollado por Elias + Copilot ✨ // MLR Hardware - 2025 🚀
+console.log("👋 Hola curioso! Este sitio fue desarrollado por Elias Vanzetti + Copilot ✨ | MLR Hardware - 2025");
+// Desarrollado por Elias Vanzetti + Copilot ✨ // MLR Hardware - 2025 🚀
+// Desarrollado por Elias Vanzetti + Copilot ✨ // MLR Hardware - 2025 🚀
 const URL_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBtgCrW6xTwr7XsPuTzW4cVi7G4QWFDK6BnwiZ-fsszgtfyNbdP1Uvr2ZyA3R5dvvO8E4zwKdpaGYF/pub?gid=0&single=true&output=csv";
 
 let productosOriginales = [];
