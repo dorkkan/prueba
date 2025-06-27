@@ -62,19 +62,24 @@ function enviarCarritoPorWhatsApp() {
   }
 
   const numero = "5493472643359";
+
+  const total = carrito.reduce((acc, item) => acc + Number(item.precio), 0);
+
   const mensaje = [
     "Hola! Quiero comprar los siguientes productos por transferencia:\n",
     ...carrito.map(p =>
       `🔹 ${p.nombre} (Código: ${p.codigo}) - $${Number(p.precio).toLocaleString()}`
     ),
+    `\nTOTAL: $${total.toLocaleString()}`,
     "\n¿Están disponibles?"
   ].join("\n");
 
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
   window.open(url, "_blank");
 
-  // localStorage.removeItem("carrito"); // ← Descomentá si querés vaciar el carrito luego de enviar
+  localStorage.removeItem("carrito"); // descomentá si querés vaciarlo después de enviar
 }
+
 
 function cargarProductosDesdeCSV() {
   fetch(URL_CSV)
