@@ -1,4 +1,4 @@
-/* Proyecto MLR Hardware - Powered by Elias Vanzetti & Copilot ⚡ */
+/* MLR Hardware - Desarrollado por Elias + Copilot */
 
 body {
   font-family: sans-serif;
@@ -23,11 +23,12 @@ header, footer {
 
 nav {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
   gap: 10px;
   background-color: #333;
   padding: 10px;
-  flex-wrap: wrap;
   position: relative;
 }
 
@@ -132,6 +133,8 @@ nav button:hover {
   text-transform: uppercase;
 }
 
+/* 🛒 Carrito desplegable superior */
+
 #carrito-wrapper {
   position: relative;
   margin-left: auto;
@@ -225,4 +228,3 @@ nav button:hover {
     width: 90%;
   }
 }
-
