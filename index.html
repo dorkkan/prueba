@@ -1,7 +1,4 @@
 <!-- Desarrollado por Elias Vanzetti + Copilot ✨ | Proyecto MLR Hardware - 2025 -->
-<!-- Desarrollado por Elias Vanzetti + Copilot ✨ | Proyecto MLR Hardware - 2025 -->
-<!-- Desarrollado por Elias Vanzetti + Copilot ✨ | Proyecto MLR Hardware - 2025 -->
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -28,9 +25,6 @@
 
   <div class="container">
     <section id="inicio" class="section active">
-      <div class="video-trio">
-        <!-- Tus iframes de bienvenida -->
-      </div>
       <center>
         <h2>Bienvenido</h2>
         <p>Somos tu tienda de confianza en hardware, PC gamers y periféricos.</p>
@@ -43,6 +37,10 @@
       <div class="subcategorias-menu" id="menu-subcategorias"></div>
       <div class="productos-grid" id="contenedor-productos"></div>
       <p id="ultima-actualizacion" class="ultima-actualizacion"></p>
+
+      <h3>🛒 Carrito de Compras</h3>
+      <div id="carrito-lista" class="carrito-lista"></div>
+      <button onclick="vaciarCarrito()" class="vaciar-carrito">🧹 Vaciar carrito</button>
     </section>
 
     <section id="servicios" class="section">
@@ -67,8 +65,7 @@
     &copy; 2025 MatiaLR Hardware - Todos los derechos reservados
   </footer>
 
+  <button onclick="enviarCarritoPorWhatsApp()" id="boton-finalizar">🛒 Finalizar compra</button>
   <script src="scripts.js"></script>
-<button onclick="enviarCarritoPorWhatsApp()" id="boton-finalizar">🛒 Finalizar compra</button>
-
 </body>
 </html>
