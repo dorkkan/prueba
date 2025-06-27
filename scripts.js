@@ -62,24 +62,19 @@ function enviarCarritoPorWhatsApp() {
   }
 
   const numero = "5493472643359";
-
-  const total = carrito.reduce((acc, item) => acc + Number(item.precio), 0);
-
   const mensaje = [
     "Hola! Quiero comprar los siguientes productos por transferencia:\n",
     ...carrito.map(p =>
       `🔹 ${p.nombre} (Código: ${p.codigo}) - $${Number(p.precio).toLocaleString()}`
     ),
-    `\nTOTAL: $${total.toLocaleString()}`,
     "\n¿Están disponibles?"
   ].join("\n");
 
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
   window.open(url, "_blank");
 
-  localStorage.removeItem("carrito"); // descomentá si querés vaciarlo después de enviar
+  // localStorage.removeItem("carrito"); // ← Descomentá si querés vaciar el carrito luego de enviar
 }
-
 
 function cargarProductosDesdeCSV() {
   fetch(URL_CSV)
@@ -122,4 +117,62 @@ function cargarProductosDesdeCSV() {
     });
 }
 
-function construir
+function construirMenus() {
+  const categorias = [...new Set(productosOriginales.map(p => p.grupo))];
+  const contenedorCat = document.getElementById("menu-categorias");
+  contenedorCat.innerHTML = `<button onclick="mostrarProductos(productosOriginales)">Todas</button>`;
+  categorias.forEach(cat => {
+    contenedorCat.innerHTML += `<button onclick="filtrarCategoria('${cat}')">${cat}</button>`;
+  });
+}
+
+function filtrarCategoria(categoria) {
+  productosFiltradosPorCategoria = productosOriginales.filter(p => p.grupo === categoria);
+  construirSubgrupos(productosFiltradosPorCategoria);
+  mostrarProductos(productosFiltradosPorCategoria);
+}
+
+function construirSubgrupos(lista) {
+  const subgrupos = [...new Set(lista.map(p => p.subgrupo))];
+  const contenedorSub = document.getElementById("menu-subcategorias");
+  contenedorSub.innerHTML = `<button onclick="mostrarProductos(productosFiltradosPorCategoria)">Todos</button>`;
+  subgrupos.forEach(sub => {
+    contenedorSub.innerHTML += `<button onclick="filtrarSubgrupo('${sub}')">${sub}</button>`;
+  });
+}
+
+function filtrarSubgrupo(subgrupo) {
+  const filtrados = productosFiltradosPorCategoria.filter(p => p.subgrupo === subgrupo);
+  mostrarProductos(filtrados);
+}
+
+function mostrarProductos(productos) {
+  const contenedor = document.getElementById("contenedor-productos");
+  contenedor.innerHTML = "";
+
+  productos.forEach(p => {
+    const stockTexto = p.stock > 0
+      ? `Stock: ${p.stock} unidad${p.stock > 1 ? "es" : ""}`
+      : `<span class="sin-stock">SIN STOCK</span>`;
+
+    const boton = (p.stock > 0 && p.descripcion && p.codigo)
+      ? `<button onclick='agregarAlCarrito(${JSON.stringify(p.descripcion)}, ${JSON.stringify(p.codigo)}, ${p.precioFinal})'>Agregar al carrito</button>`
+      : "";
+
+    contenedor.innerHTML += `
+      <div class="product">
+        <img src="${p.imagen}" alt="${p.descripcion}">
+        <h3>${p.descripcion}</h3>
+        <p><strong>$${p.precioFinal.toLocaleString()}</strong></p>
+        <p>${stockTexto}</p>
+        ${boton}
+      </div>
+    `;
+  });
+
+  const fecha = new Date();
+  document.getElementById("ultima-actualizacion").textContent =
+    "Última actualización: " + fecha.toLocaleDateString() + " " + fecha.toLocaleTimeString();
+}
+
+window.onload = cargarProductosDesdeCSV;
