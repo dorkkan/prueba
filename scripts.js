@@ -14,12 +14,13 @@ function showSection(id) {
   document.getElementById(id).classList.add("active");
 }
 
-function enviarWhatsApp(descripcion, codigo) {
-  const numero = '+5493472643359'; // ← Reemplazar por tu número real
-  const mensaje = `Hola! Quiero comprar el producto *${descripcion}* (Código: ${codigo}) y pagarlo por transferencia. ¿Está disponible?`;
+function enviarWhatsApp(nombre, codigo) {
+  const numero = '5493472643359'; // ← tu número real
+  const mensaje = `Hola! Quiero comprar el producto *${nombre}* (Código: ${codigo}) y pagarlo por transferencia. ¿Está disponible?`;
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
   window.open(url, "_blank");
 }
+
 
 function cargarProductosDesdeCSV() {
   fetch(URL_CSV)
@@ -96,7 +97,7 @@ function mostrarProductos(productos) {
     const stockTexto = p.stock > 0 ? `Stock: ${p.stock} unidad${p.stock > 1 ? "es" : ""}` : `<span class="sin-stock">SIN STOCK</span>`;
     const boton =
       p.stock > 0
-        ? `<button onclick="enviarWhatsApp('${p.descripcion}', '${p.codigo}')">Comprar por Transferencia</button>`
+        ? `<button onclick="enviarWhatsApp(${JSON.stringify(p.descripcion)}, ${JSON.stringify(p.codigo)})">Comprar por Transferencia</button>`
         : "";
 
     contenedor.innerHTML += `
