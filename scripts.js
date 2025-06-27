@@ -15,12 +15,35 @@ function showSection(id) {
   document.getElementById(id).classList.add("active");
 }
 
-function enviarWhatsApp(nombre, codigo) {
-  const numero = '5493472643359';
-  const mensaje = `Hola! Quiero comprar el producto *${nombre}* (Código: ${codigo}) y pagarlo por transferencia. ¿Está disponible?`;
+function agregarAlCarrito(nombre, codigo, precio) {
+  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  carrito.push({ nombre, codigo, precio });
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+  alert(`${nombre} fue agregado al carrito ✅`);
+}
+
+function enviarCarritoPorWhatsApp() {
+  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+  if (carrito.length === 0) {
+    alert("No hay productos en el carrito.");
+    return;
+  }
+
+  const numero = "5493472643359";
+  const mensaje = [
+    "Hola! Quiero comprar los siguientes productos por transferencia:\n",
+    ...carrito.map(p =>
+      `🔹 ${p.nombre} (Código: ${p.codigo}) - $${Number(p.precio).toLocaleString()}`
+    ),
+    "\n¿Están disponibles?"
+  ].join("\n");
+
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-  console.log("📤 Enviando a WhatsApp:", url);
   window.open(url, "_blank");
+
+  // Si querés vaciar el carrito después del envío, descomentá la siguiente línea:
+  // localStorage.removeItem("carrito");
 }
 
 function cargarProductosDesdeCSV() {
@@ -39,7 +62,9 @@ function cargarProductosDesdeCSV() {
         const lista = parseFloat(celdas[6]?.replace(",", ".") || 0);
         const stockRos = parseInt(celdas[7]) || 0;
         const stockCba = parseInt(celdas[8]) || 0;
-        const visible = celdas[9]?.trim().toUpperCase() === "SI";
+        const stockTotal = stockRos + stockCba;
+        const visibleRaw = celdas[9]?.trim().toUpperCase() === "SI";
+        const visible = visibleRaw && stockTotal > 0;
 
         return {
           codigo,
@@ -48,7 +73,7 @@ function cargarProductosDesdeCSV() {
           grupo,
           subgrupo,
           precioFinal: lista + iva,
-          stock: stockRos + stockCba,
+          stock: stockTotal,
           visible
         };
       }).filter(p => p.visible);
@@ -100,7 +125,7 @@ function mostrarProductos(productos) {
       : `<span class="sin-stock">SIN STOCK</span>`;
 
     const boton = (p.stock > 0 && p.descripcion && p.codigo)
-      ? `<button onclick='enviarWhatsApp(${JSON.stringify(p.descripcion)}, ${JSON.stringify(p.codigo)})'>Comprar por Transferencia</button>`
+      ? `<button onclick='agregarAlCarrito(${JSON.stringify(p.descripcion)}, ${JSON.stringify(p.codigo)}, ${p.precioFinal})'>Agregar al carrito</button>`
       : "";
 
     contenedor.innerHTML += `
