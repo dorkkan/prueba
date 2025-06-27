@@ -134,4 +134,6 @@ function construirMenus() {
   const contenedorCat = document.getElementById("menu-categorias");
   contenedorCat.innerHTML = `<button onclick="mostrarProductos(productosOriginales)">Todas</button>`;
   categorias.forEach(cat => {
-    contenedorCat.innerHTML += `<button onclick="filtrarCategoria
+    contenedorCat.innerHTML += `<button onclick="filtrarCategoria('${cat}')">${cat}</button>`;
+  });
+}
