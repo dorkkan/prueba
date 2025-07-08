@@ -182,10 +182,12 @@ function mostrarProductos(productos) {
       `
       : `<img src="${p.imagenes[0] || 'img/noimage.png'}" alt="${p.descripcion}">`;
 
-    contenedor.innerHTML += `
+   contenedor.innerHTML += `
       <div class="product">
         ${slider}
         <h3>${p.descripcion}</h3>
         <p><strong>$${p.precioFinal.toLocaleString()}</strong></p>
         <p>${stockTexto}</p>
         ${boton}
+      </div>
+    `;
