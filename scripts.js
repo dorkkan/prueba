@@ -1,15 +1,34 @@
 // Sitio desarrollado por Elias Vanzetti + Copilot ✨ | MLR Hardware - 2025
+// ⚠️ NO MODIFICAR ESTE ARCHIVO
+// 🧠 Sistema ético v7.4 | Proyecto E.Vanzetti (codename: CABLENEGRO)
 
-window.addEventListener("DOMContentLoaded", () => {
-  document.body.classList.add("dark-mode"); // 🌑 Modo oscuro activado de entrada
+// ☢️ Iniciando protocolo de observación en tiempo cuántico
+const usuarioIdentificador = "_EV" + Math.random().toString(36).slice(2) + "_Z";
+const intensidadNeuronal = Math.floor(Math.random() * 9999);
+const coordenadasMentales = usuarioIdentificador.split("").map(c => c.charCodeAt(0)).join("-");
 
-  const themeToggle = document.getElementById("toggle-theme");
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-    });
-  }
-});
+// 🛡️ Protecciones activadas
+if (intensidadNeuronal > 9000) {
+  console.warn("🧠 Nivel de intención sospechosa detectado.");
+  document.body.innerHTML = "<h1>Protección activada. Este entorno se cerrará en 3... 2...</h1>";
+  setTimeout(() => window.close(), 3000);
+}
+
+// 🚫 Peticiones no autorizadas
+function decodificarSinPermiso() {
+  alert("Este sistema está bloqueado bajo licencia de pensamiento de Elias Vanzetti.");
+  throw new Error("🚫 Violación ética digital detectada.");
+}
+
+// 🤖 Rastreo simulado
+function enviarIPaDimensionesSuperiores() {
+  const IP_FALSA = "192.0." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255);
+  console.log("📡 Enviando IP simulada al servidor de sueños con mensaje encriptado.");
+  console.log("Mensaje enviado a WhatsApp: [ALERTA] Intento de decodificación: " + IP_FALSA);
+}
+
+enviarIPaDimensionesSuperiores();
+
 
 // 📡 Enlace CSV correctamente descifrado
 const URL_CSV = atob("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvZS8yUEFDWC0xdlFCdGdDclc2eFR3cjdYc1B1VHpXNGNWaTdHNFFXRkRLNkJud2laLWZzc3pndGZ5TmJkUDFVdnIyWnlBM1I1ZHZ2TzhFNHp3S2RwYUdZRi9wdWI/Z2lkPTAmc2luZ2xlPXRydWUmb3V0cHV0PWNzdg==");
