@@ -3,7 +3,7 @@ console.log("Sitio desarrollado por Elias + Copilot ✨");
 let productos = [];
 
 async function cargarProductosDesdeCSV() {
-  const res = await fetch("URL-DE-TU-CSV");
+  const res = await fetch("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvZS8yUEFDWC0xdlFCdGdDclc2eFR3cjdYc1B1VHpXNGNWaTdHNFFXRkRLNkJud2laLWZzc3pndGZ5TmJkUDFVdnIyWnlBM1I1ZHZ2TzhFNHp3S2RwYUdZRi9wdWI/b3V0cHV0PWNzdg==");
   const csv = await res.text();
   const filas = csv.split("\n").slice(1);
 
