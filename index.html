@@ -1,83 +1,54 @@
-<!-- Desarrollado por Elias Vanzetti + Copilot ✨ | Proyecto MLR Hardware - 2025 -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MLR Hardware</title>
-  <link rel="icon" href="img/LOGO/logo.png" type="image/png" />
-  <link rel="stylesheet" href="estilos.css" />
+  <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
 
-
   <header>
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <h1>MLR Hardware</h1>
+    <p>Herramientas que construyen futuro</p>
     <nav id="main-menu">
-      <button onclick="showSection('inicio')">Inicio</button>
       <button onclick="showSection('productos')">Productos</button>
-      <button onclick="showSection('servicios')">Servicios</button>
-      <button onclick="showSection('contacto')">Contacto</button>
-
-      <div id="carrito-wrapper">
-        <button onclick="toggleCarritoBarra()" id="carrito-toggle">
-          🛒 (<span id="carrito-cantidad">0</span>)
-        </button>
-        <div id="carrito-contenido">
-          <div id="carrito-lista"></div>
-          <div class="carrito-totales">
-            <p>Total productos: $<span id="carrito-total">0</span></p>
-            <p>Coste de envío: $<span id="carrito-envio">1500</span></p>
-          </div>
-          <button onclick="vaciarCarrito()">Vaciar carrito</button>
-          <button onclick="enviarCarritoPorWhatsApp()">Enviar por WhatsApp</button>
-        </div>
-      </div>
+      <button onclick="showSection('carrito')">Carrito</button>
     </nav>
-    <div class="portada">
-      <img src="img/LOGO/portada.png" alt="Banner MatiaLR Hardware">
-    </div>
   </header>
 
-  <div class="container">
-    <section id="inicio" class="section active">
-      <center>
-        <h2>Bienvenido</h2>
-        <p>Somos tu tienda de confianza en hardware, PC gamers y periféricos.</p>
-      </center>
-    </section>
+  <section id="productos" class="section active">
+    <h2>Catálogo</h2>
+    <div id="menu-categorias"></div>
+    <div id="menu-subcategorias"></div>
+    <div id="contenedor-productos"></div>
+    <p id="ultima-actualizacion"></p>
+  </section>
 
-    <section id="productos" class="section">
-      <h2>Productos</h2>
-      <div class="categorias-menu" id="menu-categorias"></div>
-      <div class="subcategorias-menu" id="menu-subcategorias"></div>
-      <div class="productos-grid" id="contenedor-productos"></div>
-      <p id="ultima-actualizacion" class="ultima-actualizacion"></p>
-    </section>
-
-    <section id="servicios" class="section">
-      <h2>Servicios</h2>
-      <ul>
-        <li>Armado de PC a medida</li>
-        <li>Venta de componentes</li>
-        <li>Asesoramiento técnico y upgrades</li>
-      </ul>
-    </section>
-
-    <section id="contacto" class="section">
-      <h2>Contacto</h2>
-      <p>📧 Email: contacto@matialr.com</p>
-      <p>📱 WhatsApp: +54 9 11 1234 5678</p>
-      <p>📸 Instagram: @MatiaLR</p>
-      <p>🎥 YouTube: MatiaLR - Benchmark & Gaming</p>
-    </section>
-  </div>
+  <section id="carrito" class="section">
+    <h2>Tu carrito</h2>
+    <div id="carrito-contenido">
+      <span>Cantidad: <span id="carrito-cantidad">0</span></span>
+      <div id="carrito-lista"></div>
+      <p>Total: $<span id="carrito-total">0</span></p>
+      <p>Envío: $<span id="carrito-envio">1500</span></p>
+      <button onclick="vaciarCarrito()">Vaciar carrito</button>
+      <button onclick="enviarCarritoPorWhatsApp()">Enviar por WhatsApp</button>
+    </div>
+  </section>
 
   <footer>
-    &copy; 2025 MatiaLR Hardware - Todos los derechos reservados
+    <p>👋 Sitio desarrollado por Elias Vanzetti + Copilot ✨ | MLR Hardware - 2025</p>
   </footer>
 
+  <div id="toggle-theme" title="Modo claro/oscuro">🌓</div>
+
   <script src="scripts.js"></script>
-<div id="toggle-theme" title="Modo claro/oscuro">🌓</div>
+  <script>
+    // Activador de modo claro/oscuro
+    document.getElementById("toggle-theme").addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+    });
+  </script>
 </body>
 </html>
