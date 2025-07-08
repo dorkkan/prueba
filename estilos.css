@@ -337,5 +337,22 @@ nav button:hover {
   nav {
     flex-direction: column;
   }
-  .productos-grid {
-    grid-template-columns
+   .productos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .slider {
+    height: 180px;
+  }
+
+  nav button,
+  #carrito-toggle {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  #carrito-contenido {
+    right: 0;
+    left: 0;
+    margin: auto;
+  }
