@@ -127,61 +127,6 @@ nav button:hover {
   border: none;
 }
 
-/* 🛒 Carrito */
-#carrito-wrapper {
-  position: relative;
-  margin-left: auto;
-}
-
-#carrito-toggle {
-  background-color: var(--carrito-bg);
-  color: #222;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-#carrito-contenido {
-  display: none;
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background: var(--carrito-panel-bg);
-  color: var(--carrito-panel-text);
-  width: 300px;
-  padding: 10px;
-  border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  transform: translateY(-10px);
-  opacity: 0;
-}
-
-#carrito-contenido button {
-  margin-top: 6px;
-  width: 100%;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 5px;
-  background: #007bff;
-  color: white;
-  cursor: pointer;
-  transform: translateY(0);
-  opacity: 1;
-  display: block;
-}
-
-#carrito-contenido button:hover {
-  background: #0056b3;
-}
-
-.carrito-totales p {
-  margin: 4px 0;
-  font-weight: bold;
-}
 
 /* 🌓 Botón de modo claro/oscuro */
 #toggle-theme {
