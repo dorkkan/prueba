@@ -5,7 +5,7 @@ document.getElementById("toggle-theme").addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
 });
 
-// 📡 Enlace CSV cifrado
+// 📡 Enlace CSV correctamente descifrado
 const URL_CSV = atob("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvZS8yUEFDWC0xdlFCdGdDclc2eFR3cjdYc1B1VHpXNGNWaTdHNFFXRkRLNkJud2laLWZzc3pndGZ5TmJkUDFVdnIyWnlBM1I1ZHZ2TzhFNHp3S2RwYUdZRi9wdWI/Z2lkPTAmc2luZ2xlPXRydWUmb3V0cHV0PWNzdg==");
 
 let productosOriginales = [];
@@ -87,7 +87,7 @@ function enviarCarritoPorWhatsApp() {
   window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`, "_blank");
 }
 
-// 📦 Carga de productos desde CSV
+// 📦 Carga de productos desde CSV blindada
 function cargarProductosDesdeCSV() {
   fetch(URL_CSV)
     .then(res => res.text())
@@ -95,10 +95,8 @@ function cargarProductosDesdeCSV() {
       const filas = csv.trim().split("\n").slice(1);
 
       productosOriginales = filas.map(f => {
-        // ✅ Divide respetando comas dentro de comillas
         const celdas = f.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-
-        if (!celdas || celdas.length < 10) return null; // ⚠️ Fila incompleta
+        if (!celdas || celdas.length < 10) return null;
 
         const codigo = celdas[0];
         const descripcion = celdas[1]?.replace(/"/g, "").trim();
@@ -123,12 +121,12 @@ function cargarProductosDesdeCSV() {
         };
       }).filter(p => p?.visible);
 
-      console.log("✅ Productos cargados:", productosOriginales.length);
+      console.log(`✅ Productos visibles cargados: ${productosOriginales.length}`);
       construirMenus();
       mostrarProductos(productosOriginales);
       renderizarCarrito();
     })
-    .catch(err => console.error("Error al cargar productos:", err));
+    .catch(err => console.error("❌ Error al cargar productos:", err));
 }
 
 
