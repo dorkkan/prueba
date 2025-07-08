@@ -92,9 +92,7 @@ function toggleCarritoBarra() {
 
   panel.classList.toggle("active");
   panel.style.display = panel.classList.contains("active") ? "block" : "none";
-}
 
-// 🧼 Inicialización
-document.addEventListener("DOMContentLoaded", () => {
+  // ✅ Re-renderiza el contenido cada vez que se muestra
   renderizarCarrito();
-});
+}
