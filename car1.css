@@ -1,0 +1,118 @@
+/* 🛒 car1.css | Estilos exclusivos del carrito MLR Hardware
+   Desarrollado por Elias + Copilot ✨ | v1.0 */
+
+#carrito-wrapper {
+  position: relative;
+  margin-left: auto;
+}
+
+/* 🧭 Botón del carrito */
+#carrito-toggle {
+  background-color: var(--carrito-bg);
+  color: #222;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* 📦 Panel principal del carrito */
+#carrito-contenido {
+  display: none;
+  visibility: hidden;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 300px;
+  background: var(--carrito-panel-bg);
+  color: var(--carrito-panel-text);
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transform: translateY(-10px);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+  z-index: 1000;
+}
+
+#carrito-contenido.active {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 🧾 Lista de productos */
+#carrito-lista ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#carrito-lista li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+#carrito-lista button {
+  background: transparent;
+  border: none;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* 💬 Mensaje vacío */
+#carrito-lista p {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  margin: 10px 0;
+}
+
+/* 📊 Totales */
+.carrito-totales {
+  margin-top: 10px;
+}
+
+.carrito-totales p {
+  margin: 4px 0;
+  font-weight: bold;
+}
+
+/* 📤 Botones de acción */
+#carrito-contenido button {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--cta-bg);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#carrito-contenido button:hover {
+  background: var(--cta-hover);
+}
+
+/* 📱 Responsive */
+@media screen and (max-width: 600px) {
+  #carrito-contenido {
+    width: 90%;
+    top: 60px;
+    right: 5%;
+    left: 5%;
+  }
+
+  #carrito-toggle {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+}
