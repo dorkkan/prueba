@@ -1,9 +1,9 @@
 console.log("👋 Sitio desarrollado por Elias Vanzetti + Copilot ✨ | MLR Hardware - 2025");
 
-const URL_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBtgCrW6xTwr7XsPuTzW4cVi7G4QWFDK6BnwiZ-fsszgtfyNbdP1Uvr2ZyA3R5dvvO8E4zwKdpaGYF/pub?gid=0&single=true&output=csv";
+const URL_CSV = atob("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvZS8yUEFDWC0xdlFCdGdDclc2eFR3cjdYc1B1VHpXNGNWaTdHNFFXRkRLNkJud2laLWZzc3pndGZ5TmJkUDFVdnIyWnlBM1I1ZHZ2TzhFNHp3S2RwYUdZRi9wdWI/b3V0cHV0PWNzdg==");
 let productosOriginales = [];
 let productosFiltradosPorCategoria = [];
-let COSTE_ENVIO = 1500; // Podés modificarlo
+let COSTE_ENVIO = 1500;
 
 function toggleMenu() {
   document.getElementById("main-menu").classList.toggle("active");
@@ -41,7 +41,6 @@ function vaciarCarrito() {
 function renderizarCarrito() {
   const contenedor = document.getElementById("carrito-lista");
   const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
   const cantidadSpan = document.getElementById("carrito-cantidad");
   cantidadSpan.textContent = carrito.length;
 
@@ -65,26 +64,19 @@ function renderizarCarrito() {
 
 function enviarCarritoPorWhatsApp() {
   const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-  if (carrito.length === 0) {
-    alert("No hay productos en el carrito.");
-    return;
-  }
+  if (carrito.length === 0) return alert("No hay productos en el carrito.");
 
   const numero = "5493472643359";
   const total = carrito.reduce((acc, item) => acc + Number(item.precio), 0);
   const mensaje = [
     "Hola! Quiero comprar los siguientes productos por transferencia:\n",
-    ...carrito.map(p =>
-      `🔹 ${p.nombre} (Código: ${p.codigo}) - $${Number(p.precio).toLocaleString()}`
-    ),
+    ...carrito.map(p => `🔹 ${p.nombre} (Código: ${p.codigo}) - $${Number(p.precio).toLocaleString()}`),
     `\nTOTAL: $${total.toLocaleString()}`,
     `Coste de envío: $${COSTE_ENVIO.toLocaleString()}`,
     "\n¿Están disponibles?"
   ].join("\n");
 
-  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-  window.open(url, "_blank");
+  window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`, "_blank");
 }
 
 function cargarProductosDesdeCSV() {
@@ -95,7 +87,8 @@ function cargarProductosDesdeCSV() {
       productosOriginales = filas.map(f => {
         const celdas = f.split(",");
         const codigo = celdas[0];
-        const descripcion = celdas[1];
+        const descripcionRaw = celdas[1] || "";
+        const descripcion = descripcionRaw.replace(/"/g, "").trim(); // Elimina comillas
         const imagen = celdas[2];
         const grupo = celdas[3];
         const subgrupo = celdas[4];
@@ -123,9 +116,7 @@ function cargarProductosDesdeCSV() {
       mostrarProductos(productosOriginales);
       renderizarCarrito();
     })
-    .catch(err => {
-      console.error("Error al cargar productos:", err);
-    });
+    .catch(err => console.error("Error al cargar productos:", err));
 }
 
 function construirMenus() {
