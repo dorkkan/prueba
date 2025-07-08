@@ -1,0 +1,106 @@
+/* 🎯 Tarjetas de productos | Elias + Copilot */
+
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.product {
+  position: relative;
+  background: var(--card-bg);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 5px var(--shadow);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  height: 360px; /* Altura fija para uniformidad visual */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product:hover {
+  transform: translateY(-4px);
+}
+
+.product::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  background: var(--borde-color);
+  background-size: 300% 300%;
+  border-radius: 12px;
+  animation: glowBorder 6s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.product:hover::before {
+  opacity: 1;
+}
+
+.product * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes glowBorder {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.product h3 {
+  margin: 10px 0 5px;
+  font-size: 1.1rem;
+}
+
+.product p {
+  margin: 4px 0;
+}
+
+.product button {
+  background-color: var(--cta-bg);
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 5px;
+  margin-top: auto;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.product button:hover {
+  background-color: var(--cta-hover);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+/* 🖼️ Imagen en tarjetas */
+.product img {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+  background: #1a1a1a;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+  margin-bottom: 10px;
+}
+
+.ultima-actualizacion {
+  text-align: center;
+  color: #888;
+  margin-top: 20px;
+}
+
+.sin-stock {
+  color: red;
+  font-weight: bold;
+  text-transform: uppercase;
+}
