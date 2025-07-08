@@ -93,26 +93,31 @@ function cargarProductosDesdeCSV() {
   fetch(URL_CSV)
     .then(res => res.text())
     .then(csv => {
-      const filas = csv.trim().split("\n").slice(1);
-      productosOriginales = filas.map(f => {
-        const celdas = f.split(",");
-        const codigo = celdas[0];
-        const descripcion = celdas[1]?.replace(/"/g, "").trim();
-        const imagenes = celdas[2]?.split("|").map(i => i.trim()) || [];
-        const grupo = celdas[3];
-        const subgrupo = celdas[4];
-        const iva = parseFloat(celdas[5]?.replace(",", ".") || 0);
-        const lista = parseFloat(celdas[6]?.replace(",", ".") || 0);
-        const stockRos = parseInt(celdas[7]) || 0;
-        const stockCba = parseInt(celdas[8]) || 0;
-        const visible = celdas[9]?.trim().toUpperCase() === "SI";
-        const precioFinal = lista + iva;
-        const stock = stockRos + stockCba;
+     const filas = csv.trim().split("\n").slice(1);
+productosOriginales = filas.map(f => {
+  const celdas = f.split(",");
+  const codigo = celdas[0];
+  const descripcion = celdas[1]?.replace(/"/g, "").trim();
+  const imagenes = celdas[2]?.split("|").map(i => i.trim()) || [];
+  const grupo = celdas[3];
+  const subgrupo = celdas[4];
+  const lista3 = parseFloat(celdas[6]) || 0;
+  const stock_ros = parseInt(celdas[7]) || 0;
+  const stock_cba = parseInt(celdas[8]) || 0;
+  const visible = celdas[9]?.trim().toUpperCase() === "SI";
+  const stock = stock_ros + stock_cba;
 
-        return {
-          codigo, descripcion, imagenes, grupo, subgrupo, precioFinal, stock, visible: visible && stock > 0
-        };
-      }).filter(p => p.visible);
+  return {
+    codigo,
+    descripcion,
+    imagenes,
+    grupo,
+    subgrupo,
+    precioFinal: lista3,
+    stock,
+    visible: visible && stock > 0
+  };
+}).filter(p => p.visible);
 
       construirMenus();
       mostrarProductos(productosOriginales);
