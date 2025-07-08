@@ -93,31 +93,43 @@ function cargarProductosDesdeCSV() {
     .then(res => res.text())
     .then(csv => {
       const filas = csv.trim().split("\n").slice(1);
+      console.log(`🔍 Filas detectadas: ${filas.length}`);
 
       productosOriginales = filas.map(f => {
         const celdas = f.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-       if (!celdas || celdas.length < 9) {
-  console.warn("Fila descartada:", f);
-  return null;
-}
+        if (!celdas || celdas.length < 9) {
+          console.warn("⚠️ Fila descartada por formato:", f);
+          return null;
+        }
 
+        const codigo = celdas[0] || "";
+        const descripcion = celdas[1]?.replace(/"/g, "").trim() || "";
+        const imagenes = celdas[2]?.split("|").map(i => i.trim()) || [];
+        const grupo = celdas[3] || "";
+        const subgrupo = celdas[4] || "";
+        const stock_ros = parseInt(celdas[5]) || 0;
+        const stock_cba = parseInt(celdas[6]) || 0;
+        const visible = celdas[7]?.trim().toUpperCase() === "SI";
+        const lista3 = parseFloat(celdas[8]) || 0;
+        const stock = stock_ros + stock_cba;
 
-const codigo = celdas?.[0] || "";
-const descripcion = celdas?.[1]?.replace(/"/g, "").trim() || "";
-const imagenes = celdas?.[2]?.split("|").map(i => i.trim()) || [];
-const grupo = celdas?.[3] || "";
-const subgrupo = celdas?.[4] || "";
-const stock_ros = parseInt(celdas?.[5]) || 0;
-const stock_cba = parseInt(celdas?.[6]) || 0;
-const visible = celdas?.[7]?.trim().toUpperCase() === "SI";
-const lista3 = parseFloat(celdas?.[8]) || 0;
-const stock = stock_ros + stock_cba;
+        if (!descripcion || !codigo || lista3 <= 0) {
+          console.warn("❌ Producto inválido:", celdas);
+          return null;
+        }
 
-if (!descripcion || !codigo || lista3 <= 0) {
-  console.warn("❌ Producto inválido:", celdas);
-  return null;
-}
-
+        return {
+          codigo,
+          descripcion,
+          imagenes,
+          grupo,
+          subgrupo,
+          stock,
+          stock_ros,
+          stock_cba,
+          visible,
+          precioFinal: lista3
+        };
       }).filter(p => p?.visible);
 
       console.log(`✅ Productos visibles cargados: ${productosOriginales.length}`);
@@ -127,7 +139,6 @@ if (!descripcion || !codigo || lista3 <= 0) {
     })
     .catch(err => console.error("❌ Error al cargar productos:", err));
 }
-
 
 // 🧭 Menús dinámicos
 function construirMenus() {
