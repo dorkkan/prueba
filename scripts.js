@@ -1,8 +1,14 @@
 // Sitio desarrollado por Elias Vanzetti + Copilot ✨ | MLR Hardware - 2025
 
-// 🌗 Activador de modo claro/oscuro
-document.getElementById("toggle-theme").addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
+window.addEventListener("DOMContentLoaded", () => {
+  document.body.classList.add("dark-mode"); // 🌑 Modo oscuro activado de entrada
+
+  const themeToggle = document.getElementById("toggle-theme");
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+    });
+  }
 });
 
 // 📡 Enlace CSV correctamente descifrado
