@@ -100,16 +100,18 @@ nav button:hover {
   background-color: var(--slider-bg);
   overflow: hidden;
 }
-
-.portada img {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
+.slider img,
+.product img {
+  min-height: 140px;
+  height: 140px;
   object-fit: cover;
-  display: block;
-  border-bottom: 2px solid #00ffea;
+  width: 100%;
+  background: #1a1a1a; /* Fondo en caso de imagen rota */
 }
-
+.slider {
+  aspect-ratio: 16 / 9;
+  background-color: #111;
+}
 /* Filtros */
 .categorias-menu,
 .subcategorias-menu {
