@@ -1,7 +1,6 @@
-/* Modo claro por defecto */
 :root {
   --bg-color: #f9f9f9;
-  --card-bg: #ffffff;
+  --card-bg: #fff;
   --primary: #ff3c3c;
   --secondary: #ffc93c;
   --accent: #3cafff;
@@ -9,13 +8,9 @@
   --shadow: rgba(0, 0, 0, 0.1);
 }
 
-/* Modo oscuro opcional */
 body.dark-mode {
   --bg-color: #121212;
   --card-bg: #1e1e1e;
-  --primary: #ff5c5c;
-  --secondary: #ffe05c;
-  --accent: #5cabff;
   --text-color: #f0f0f0;
   --shadow: rgba(0, 0, 0, 0.3);
 }
@@ -26,6 +21,28 @@ body {
   background: var(--bg-color);
   color: var(--text-color);
   transition: background 0.3s ease, color 0.3s ease;
+}
+
+header {
+  text-align: center;
+  padding: 24px 12px;
+  background: var(--primary);
+  color: white;
+}
+
+nav button {
+  margin: 0 4px;
+  padding: 10px 16px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+nav button:hover {
+  background: var(--secondary);
+  transform: scale(1.05);
 }
 
 .section {
@@ -46,12 +63,7 @@ button:hover {
   transform: scale(1.05);
 }
 
-#main-menu.active,
-#carrito-contenido {
-  transition: all 0.3s ease;
-}
-
-/* Producto con borde animado */
+/* Tarjeta de producto con borde animado */
 .product {
   position: relative;
   overflow: hidden;
@@ -60,6 +72,7 @@ button:hover {
   border-radius: 12px;
   box-shadow: 0 4px 12px var(--shadow);
   transition: transform 0.3s ease;
+  margin-bottom: 20px;
 }
 .product:hover {
   transform: translateY(-4px);
@@ -86,7 +99,6 @@ button:hover {
   position: relative;
   z-index: 1;
 }
-
 @keyframes bordeGlow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -105,8 +117,6 @@ button:hover {
 .product p {
   margin: 4px 0;
 }
-
-/* Sin stock visual */
 .sin-stock {
   color: red;
   font-weight: bold;
