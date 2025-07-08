@@ -93,8 +93,12 @@ function cargarProductosDesdeCSV() {
     .then(res => res.text())
     .then(csv => {
       const filas = csv.trim().split("\n").slice(1);
+
       productosOriginales = filas.map(f => {
-        const celdas = f.split(",");
+        // ✅ Reemplaza comas dentro de comillas por barra segura
+        const corregido = f.replace(/"([^"]*?),([^"]*?)"/g, (_, a, b) => `"${a}/${b}"`);
+        const celdas = corregido.split(",");
+
         const codigo = celdas[0];
         const descripcion = celdas[1]?.replace(/"/g, "").trim();
         const imagenes = celdas[2]?.split("|").map(i => i.trim()) || [];
@@ -124,6 +128,7 @@ function cargarProductosDesdeCSV() {
     })
     .catch(err => console.error("Error al cargar productos:", err));
 }
+
 
 // 🧭 Menús dinámicos
 function construirMenus() {
