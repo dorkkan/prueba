@@ -173,13 +173,13 @@ setTimeout(() => {
       : `<span class="sin-stock">SIN STOCK</span>`;
 
     const boton = p.stock > 0
-      ? `const boton = p.stock > 0
   ? `<button class="btn-agregar"
         data-nombre="${p.descripcion}"
         data-codigo="${p.codigo}"
         data-precio="${p.precioFinal}">
         Agregar al carrito</button>`
   : "";
+
 `
       : "";
 
