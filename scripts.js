@@ -226,3 +226,8 @@ function mostrarProductos(productos) {
     `;
   });
 }
+window.addEventListener("DOMContentLoaded", () => {
+  cargarProductosDesdeCSV();
+});
+document.getElementById("ultima-actualizacion").textContent =
+  `🟢 ${productosOriginales.length} productos cargados correctamente.`;
