@@ -57,12 +57,12 @@ function renderizarCarrito() {
   totalElem.textContent = total.toLocaleString();
   envioElem.textContent = COSTE_ENVIO.toLocaleString();
 
-  contenedor.innerHTML = "<ul>" + carrito.map((p, i) =>
-    `<li>${p.nombre} - $${Number(p.precio).toLocaleString()}
-      <button onclick="eliminarDelCarrito(${i})">❌</button>
-    </li>`
-  ).join("") + "</ul>";
-}
+    contenedor.innerHTML = "<ul>" + carrito.map((p, i) =>
+      `<li>${p.nombre} - $${Number(p.precio).toLocaleString()}
+        <button onclick="eliminarDelCarrito(${i})">❌</button>
+      </li>`
+    ).join("") + "</ul>";
+
 
 // 📤 Enviar carrito por WhatsApp
 function enviarCarritoPorWhatsApp() {
