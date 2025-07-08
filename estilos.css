@@ -105,7 +105,7 @@ nav button:hover {
   width: 100%;
   max-width: 100%;
   height: auto;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
   border-bottom: 2px solid #00ffea;
 }
@@ -211,6 +211,7 @@ nav button:hover {
 
 .product button:hover {
   background-color: var(--cta-hover);
+  box-shadow: 0 2px 8px var(--shadow);
 }
 
 .ultima-actualizacion {
@@ -253,6 +254,10 @@ nav button:hover {
   border-radius: 6px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   z-index: 1000;
+transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(-10px);
+  opacity: 0;
+}
 }
 
 #carrito-contenido button {
@@ -264,7 +269,11 @@ nav button:hover {
   background: #007bff;
   color: white;
   cursor: pointer;
+  transform: translateY(0);
+  opacity: 1;
+  display: block;
 }
+
 
 #carrito-contenido button:hover {
   background: #0056b3;
@@ -291,12 +300,13 @@ nav button:hover {
   object-fit: cover;
   position: absolute;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+ transform: scale(0.95);
 }
 
 .slider img.active {
   opacity: 1;
-  position: relative;
+  transform: scale(1);
 }
 
 .slider-controles {
