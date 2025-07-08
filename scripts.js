@@ -180,9 +180,6 @@ setTimeout(() => {
         Agregar al carrito</button>`
   : "";
 
-`
-      : "";
-
     const slider = p.imagenes.length > 1
       ? `<div class="slider">
           ${p.imagenes.map((src, i) => `<img src="${src}" class="slide${i === 0 ? ' active' : ''}" alt="${p.descripcion}" />`).join("")}
