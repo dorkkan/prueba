@@ -156,6 +156,16 @@ function filtrarSubgrupo(subgrupo) {
 function mostrarProductos(productos) {
   const contenedor = document.getElementById("contenedor-productos");
   contenedor.innerHTML = "";
+setTimeout(() => {
+  document.querySelectorAll(".btn-agregar").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const nombre = btn.dataset.nombre;
+      const codigo = btn.dataset.codigo;
+      const precio = btn.dataset.precio;
+      agregarAlCarrito(nombre, codigo, precio);
+    });
+  });
+}, 0);
 
   productos.forEach(p => {
     const stockTexto = p.stock > 0
@@ -163,7 +173,14 @@ function mostrarProductos(productos) {
       : `<span class="sin-stock">SIN STOCK</span>`;
 
     const boton = p.stock > 0
-      ? `<button onclick='agregarAlCarrito(${JSON.stringify(p.descripcion)}, ${JSON.stringify(p.codigo)}, ${p.precioFinal})'>Agregar al carrito</button>`
+      ? `const boton = p.stock > 0
+  ? `<button class="btn-agregar"
+        data-nombre="${p.descripcion}"
+        data-codigo="${p.codigo}"
+        data-precio="${p.precioFinal}">
+        Agregar al carrito</button>`
+  : "";
+`
       : "";
 
     const slider = p.imagenes.length > 1
