@@ -109,7 +109,7 @@ nav button:hover {
 .product img {
   min-height: 200px;
   height: 200px;
-  object-fit: cover;
+  object-fit: relative;
   width: 100%;
   background: #1a1a1a; /* Fondo en caso de imagen rota */
 border-radius: 6px;
@@ -309,7 +309,7 @@ transition: opacity 0.3s ease, transform 0.3s ease;
 .slider img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: relative;
   position: absolute;
   opacity: 0;
   transition: opacity 0.5s ease, transform 0.5s ease;
@@ -364,7 +364,7 @@ transition: opacity 0.3s ease, transform 0.3s ease;
   }
 
   .slider {
-    height: 180px;
+    height: 140px;
   }
 
   nav button,
