@@ -201,6 +201,19 @@ setTimeout(() => {
     `;
   });
 }
+
+
+setTimeout(() => {
+  document.querySelectorAll(".btn-agregar").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const nombre = btn.dataset.nombre;
+      const codigo = btn.dataset.codigo;
+      const precio = btn.dataset.precio;
+      agregarAlCarrito(nombre, codigo, precio);
+    });
+  });
+}, 0);
+
 window.addEventListener("DOMContentLoaded", () => {
   cargarProductosDesdeCSV();
 });
