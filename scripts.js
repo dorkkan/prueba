@@ -95,19 +95,18 @@ function cargarProductosDesdeCSV() {
       const filas = csv.trim().split("\n").slice(1);
 
       productosOriginales = filas.map(f => {
-        // ✅ Reemplaza comas dentro de comillas por barra segura
-        const celdas = f.split(",");
+        // ✅ Divide la línea respetando comas dentro de comillas
+        const celdas = f.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
 
-
-        const codigo = celdas[0];
-        const descripcion = celdas[1]?.replace(/"/g, "").trim();
-        const imagenes = celdas[2]?.split("|").map(i => i.trim()) || [];
-        const grupo = celdas[3];
-        const subgrupo = celdas[4];
-        const lista3 = parseFloat(celdas[6]) || 0;
-        const stock_ros = parseInt(celdas[7]) || 0;
-        const stock_cba = parseInt(celdas[8]) || 0;
-        const visible = celdas[9]?.trim().toUpperCase() === "SI";
+        const codigo = celdas?.[0];
+        const descripcion = celdas?.[1]?.replace(/"/g, "").trim();
+        const imagenes = celdas?.[2]?.split("|").map(i => i.trim()) || [];
+        const grupo = celdas?.[3];
+        const subgrupo = celdas?.[4];
+        const lista3 = parseFloat(celdas?.[6]) || 0;
+        const stock_ros = parseInt(celdas?.[7]) || 0;
+        const stock_cba = parseInt(celdas?.[8]) || 0;
+        const visible = celdas?.[9]?.trim().toUpperCase() === "SI";
         const stock = stock_ros + stock_cba;
 
         return {
@@ -120,7 +119,7 @@ function cargarProductosDesdeCSV() {
           stock,
           visible: visible && stock > 0
         };
-      }).filter(p => p.visible);
+      }).filter(p => p?.visible);
 
       construirMenus();
       mostrarProductos(productosOriginales);
