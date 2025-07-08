@@ -1,6 +1,6 @@
-/* MLR Hardware - Desarrollado por Elias + Copilot */
+/* 🌗 MLR Hardware - Estilos generales | Elias + Copilot */
 
-/* 🌗 Variables generales para temas */
+/* Variables para temas */
 :root {
   --bg-color: #f4f4f4;
   --text-color: #333;
@@ -21,7 +21,7 @@
   --borde-color: linear-gradient(90deg, #ff3c3c, #ffc93c, #3cafff, #ff3c3c);
 }
 
-/* Modo oscuro activado */
+/* Modo oscuro */
 body.dark-mode {
   --bg-color: #121212;
   --text-color: #eee;
@@ -100,29 +100,8 @@ nav button:hover {
   background-color: var(--slider-bg);
   overflow: hidden;
 }
-.slider img {
-  height: 100%;
-  width: 100%;
-  object-fit: contain; /* 🔧 Muestra imagen completa sin recorte */
-  background-color: #1a1a1a; /* Fallback visual si hay espacio sobrante */
-}
-.product img {
-  min-height: 200px;
-  height: 200px;
-  object-fit: relative;
-  width: 100%;
-  background: #1a1a1a; /* Fondo en caso de imagen rota */
-border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
 
-.slider {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #111;
-}
-/* Filtros */
+/* 🎛️ Filtros */
 .categorias-menu,
 .subcategorias-menu {
   display: flex;
@@ -146,96 +125,6 @@ border-radius: 6px;
   padding: 5px 10px;
   border-radius: 5px;
   border: none;
-}
-
-/* 📦 Tarjetas de productos */
-.productos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.product {
-  position: relative;
-  background: var(--card-bg);
-  padding: 10px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 2px 5px var(--shadow);
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-
-.product:hover {
-  transform: translateY(-4px);
-}
-
-.product::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
-  background: var(--borde-color);
-  background-size: 300% 300%;
-  border-radius: 12px;
-  animation: glowBorder 6s linear infinite;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 0;
-}
-
-.product:hover::before {
-  opacity: 1;
-}
-
-.product * {
-  position: relative;
-  z-index: 1;
-}
-
-@keyframes glowBorder {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.product h3 {
-  margin: 10px 0 5px;
-  font-size: 1.1rem;
-}
-
-.product p {
-  margin: 4px 0;
-}
-
-.product button {
-  background-color: var(--cta-bg);
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 5px;
-  margin-top: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.product button:hover {
-  background-color: var(--cta-hover);
-  box-shadow: 0 2px 8px var(--shadow);
-}
-
-.ultima-actualizacion {
-  text-align: center;
-  color: #888;
-  margin-top: 20px;
-}
-
-.sin-stock {
-  color: red;
-  font-weight: bold;
-  text-transform: uppercase;
 }
 
 /* 🛒 Carrito */
@@ -264,12 +153,11 @@ border-radius: 6px;
   width: 300px;
   padding: 10px;
   border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   transform: translateY(-10px);
   opacity: 0;
-}
 }
 
 #carrito-contenido button {
@@ -286,7 +174,6 @@ transition: opacity 0.3s ease, transform 0.3s ease;
   display: block;
 }
 
-
 #carrito-contenido button:hover {
   background: #0056b3;
 }
@@ -296,50 +183,7 @@ transition: opacity 0.3s ease, transform 0.3s ease;
   font-weight: bold;
 }
 
-/* 🖼️ Slider de producto */
-.slider {
-  position: relative;
-  width: 100%;
-  height: 140px;
-  overflow: hidden;
-  border-radius: 6px;
-  margin-bottom: 10px;
-}
-
-.slider img {
-  width: 100%;
-  height: 100%;
-  object-fit: relative;
-  position: absolute;
-  opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease;
- transform: scale(0.95);
-}
-
-.slider img.active {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.slider-controles {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  display: flex;
-  gap: 5px;
-}
-
-.slider-controles button {
-  background: rgba(0,0,0,0.6);
-  color: white;
-  border: none;
-  padding: 4px 6px;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-/* 🌓 Botón modo claro/oscuro */
+/* 🌓 Botón de modo claro/oscuro */
 #toggle-theme {
   position: fixed;
   bottom: 16px;
@@ -350,7 +194,7 @@ transition: opacity 0.3s ease, transform 0.3s ease;
   padding: 12px;
   font-size: 1.3rem;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   z-index: 1500;
 }
 
@@ -359,12 +203,9 @@ transition: opacity 0.3s ease, transform 0.3s ease;
   nav {
     flex-direction: column;
   }
-   .productos-grid {
-    grid-template-columns: 1fr;
-  }
 
-  .slider {
-    height: 140px;
+  .productos-grid {
+    grid-template-columns: 1fr;
   }
 
   nav button,
