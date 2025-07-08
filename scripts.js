@@ -29,14 +29,14 @@ function toggleCarritoBarra() {
 }
 
 function agregarAlCarrito(nombre, codigo, precio) {
-  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
   carrito.push({ nombre, codigo, precio });
   localStorage.setItem("carrito", JSON.stringify(carrito));
   renderizarCarrito();
 }
 
 function eliminarDelCarrito(indice) {
-  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
   carrito.splice(indice, 1);
   localStorage.setItem("carrito", JSON.stringify(carrito));
   renderizarCarrito();
@@ -50,8 +50,7 @@ function vaciarCarrito() {
 function renderizarCarrito() {
   const contenedor = document.getElementById("carrito-lista");
   const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-  const cantidadSpan = document.getElementById("carrito-cantidad");
-  cantidadSpan.textContent = carrito.length;
+  document.getElementById("carrito-cantidad").textContent = carrito.length;
 
   if (!contenedor) return;
 
@@ -62,7 +61,7 @@ function renderizarCarrito() {
     return;
   }
 
-  let total = carrito.reduce((acc, item) => acc + Number(item.precio), 0);
+  const total = carrito.reduce((acc, item) => acc + Number(item.precio), 0);
   document.getElementById("carrito-total").textContent = total.toLocaleString();
   document.getElementById("carrito-envio").textContent = COSTE_ENVIO.toLocaleString();
 
@@ -93,31 +92,31 @@ function cargarProductosDesdeCSV() {
   fetch(URL_CSV)
     .then(res => res.text())
     .then(csv => {
-     const filas = csv.trim().split("\n").slice(1);
-productosOriginales = filas.map(f => {
-  const celdas = f.split(",");
-  const codigo = celdas[0];
-  const descripcion = celdas[1]?.replace(/"/g, "").trim();
-  const imagenes = celdas[2]?.split("|").map(i => i.trim()) || [];
-  const grupo = celdas[3];
-  const subgrupo = celdas[4];
-  const lista3 = parseFloat(celdas[6]) || 0;
-  const stock_ros = parseInt(celdas[7]) || 0;
-  const stock_cba = parseInt(celdas[8]) || 0;
-  const visible = celdas[9]?.trim().toUpperCase() === "SI";
-  const stock = stock_ros + stock_cba;
+      const filas = csv.trim().split("\n").slice(1);
+      productosOriginales = filas.map(f => {
+        const celdas = f.split(",");
+        const codigo = celdas[0];
+        const descripcion = celdas[1]?.replace(/"/g, "").trim();
+        const imagenes = celdas[2]?.split("|").map(i => i.trim()) || [];
+        const grupo = celdas[3];
+        const subgrupo = celdas[4];
+        const lista3 = parseFloat(celdas[6]) || 0;
+        const stock_ros = parseInt(celdas[7]) || 0;
+        const stock_cba = parseInt(celdas[8]) || 0;
+        const visible = celdas[9]?.trim().toUpperCase() === "SI";
+        const stock = stock_ros + stock_cba;
 
-  return {
-    codigo,
-    descripcion,
-    imagenes,
-    grupo,
-    subgrupo,
-    precioFinal: lista3,
-    stock,
-    visible: visible && stock > 0
-  };
-}).filter(p => p.visible);
+        return {
+          codigo,
+          descripcion,
+          imagenes,
+          grupo,
+          subgrupo,
+          precioFinal: lista3,
+          stock,
+          visible: visible && stock > 0
+        };
+      }).filter(p => p.visible);
 
       construirMenus();
       mostrarProductos(productosOriginales);
@@ -126,7 +125,7 @@ productosOriginales = filas.map(f => {
     .catch(err => console.error("Error al cargar productos:", err));
 }
 
-// 🧭 Categorías y subcategorías
+// 🧭 Menús dinámicos
 function construirMenus() {
   const categorias = [...new Set(productosOriginales.map(p => p.grupo))];
   const contenedorCat = document.getElementById("menu-categorias");
@@ -156,7 +155,7 @@ function filtrarSubgrupo(subgrupo) {
   mostrarProductos(filtrados);
 }
 
-// 🎨 Renderizado de productos
+// 🎨 Renderizado visual de productos
 function mostrarProductos(productos) {
   const contenedor = document.getElementById("contenedor-productos");
   contenedor.innerHTML = "";
@@ -172,17 +171,17 @@ function mostrarProductos(productos) {
 
     const slider = p.imagenes.length > 1
       ? `
-      <div class="slider">
-        ${p.imagenes.map((src, i) => `<img src="${src}" class="slide${i === 0 ? ' active' : ''}" alt="${p.descripcion}" />`).join("")}
-        <div class="slider-controles">
-          <button onclick="cambiarSlide(this, -1)">←</button>
-          <button onclick="cambiarSlide(this, 1)">→</button>
+        <div class="slider">
+          ${p.imagenes.map((src, i) => `<img src="${src}" class="slide${i === 0 ? ' active' : ''}" alt="${p.descripcion}" />`).join("")}
+          <div class="slider-controles">
+            <button onclick="cambiarSlide(this, -1)">←</button>
+            <button onclick="cambiarSlide(this, 1)">→</button>
+          </div>
         </div>
-      </div>
       `
       : `<img src="${p.imagenes[0] || 'img/noimage.png'}" alt="${p.descripcion}">`;
 
-   contenedor.innerHTML += `
+    contenedor.innerHTML += `
       <div class="product">
         ${slider}
         <h3>${p.descripcion}</h3>
@@ -191,3 +190,5 @@ function mostrarProductos(productos) {
         ${boton}
       </div>
     `;
+  });
+}
