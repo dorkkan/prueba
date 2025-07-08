@@ -95,23 +95,26 @@ function parseCSVLine(line) {
 
   while ((match = pattern.exec(line))) {
     let valor = match[1] !== undefined ? match[1].replace(/""/g, '"') : match[2];
+    valor = valor.replace(/^"+|"+$/g, ""); // 🧼 Limpia comillas externas
     values.push(valor.trim());
   }
 
   return values;
 }
-
 // 📦 Carga de productos desde CSV
 function cargarProductosDesdeCSV() {
   fetch(URL_CSV)
     .then(res => res.text())
     .then(csv => {
       const filas = csv.trim().split("\n").slice(1);
+      console.log("📦 Total de filas en CSV:", filas.length);
 
       productosOriginales = filas.map(f => {
         const celdas = parseCSVLine(f);
-        if (!celdas || celdas.length < 9) {
-          console.warn("⚠️ Fila descartada:", celdas);
+        console.log("🧾 Celdas parseadas:", celdas);
+
+        if (!celdas || celdas.length < 9 || !celdas[0] || !celdas[1]) {
+          console.warn("⚠️ Fila descartada por estructura:", celdas);
           return null;
         }
 
@@ -143,16 +146,21 @@ function cargarProductosDesdeCSV() {
           visible,
           precioFinal: lista3
         };
-      }).filter(p => p?.visible);
+      })
 
-      console.log(`✅ Productos visibles cargados: ${productosOriginales.length}`);
+      // 🧪 Filtrar productos solo si estás seguro que visible está funcionando
+      // productosOriginales = productosOriginales.filter(p => p?.visible);
+      productosOriginales = productosOriginales.filter(p => p); // Carga TODO para testeo
+
+      console.log(`✅ Productos detectados: ${productosOriginales.length}`);
+      console.log("👀 Primer producto:", productosOriginales[0]);
+
       construirMenus();
       mostrarProductos(productosOriginales);
       renderizarCarrito();
     })
     .catch(err => console.error("❌ Error al cargar productos:", err));
 }
-
 // 🧭 Menús dinámicos
 function construirMenus() {
   const categorias = [...new Set(productosOriginales.map(p => p.grupo))];
