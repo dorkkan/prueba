@@ -98,16 +98,17 @@ function cargarProductosDesdeCSV() {
         const celdas = f.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
         if (!celdas || celdas.length < 10) return null;
 
-        const codigo = celdas[0];
-        const descripcion = celdas[1]?.replace(/"/g, "").trim();
-        const imagenes = celdas[2]?.split("|").map(i => i.trim()) || [];
-        const grupo = celdas[3];
-        const subgrupo = celdas[4];
-        const lista3 = parseFloat(celdas[6]) || 0;
-        const stock_ros = parseInt(celdas[7]) || 0;
-        const stock_cba = parseInt(celdas[8]) || 0;
-        const visible = celdas[9]?.trim().toUpperCase() === "SI";
-        const stock = stock_ros + stock_cba;
+const codigo = celdas[0];
+const descripcion = celdas[1]?.replace(/"/g, "").trim();
+const imagenes = celdas[2]?.split("|").map(i => i.trim()) || [];
+const grupo = celdas[3];
+const subgrupo = celdas[4];
+const stock_ros = parseInt(celdas[5]) || 0;
+const stock_cba = parseInt(celdas[6]) || 0;
+const visible = celdas[7]?.trim().toUpperCase() === "SI";
+const lista3 = parseFloat(celdas[8]) || 0;
+
+const stock = stock_ros + stock_cba;
 
         return {
           codigo,
