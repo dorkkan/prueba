@@ -107,8 +107,8 @@ nav button:hover {
   background-color: #1a1a1a; /* Fallback visual si hay espacio sobrante */
 }
 .product img {
-  min-height: 140px;
-  height: 140px;
+  min-height: 200px;
+  height: 200px;
   object-fit: cover;
   width: 100%;
   background: #1a1a1a; /* Fondo en caso de imagen rota */
