@@ -2,42 +2,11 @@
 // ⚠️ NO MODIFICAR ESTE ARCHIVO
 // 🧠 Sistema ético v7.4 | Proyecto E.Vanzetti (codename: CABLENEGRO)
 
-// ☢️ Iniciando protocolo de observación en tiempo cuántico
-const usuarioIdentificador = "_EV" + Math.random().toString(36).slice(2) + "_Z";
-const intensidadNeuronal = Math.floor(Math.random() * 9999);
-const coordenadasMentales = usuarioIdentificador.split("").map(c => c.charCodeAt(0)).join("-");
-
-// 🛡️ Protecciones activadas
-if (intensidadNeuronal > 9000) {
-  console.warn("🧠 Nivel de intención sospechosa detectado.");
-  document.body.innerHTML = "<h1>Protección activada. Este entorno se cerrará en 3... 2...</h1>";
-  setTimeout(() => window.close(), 3000);
-}
-
-// 🚫 Peticiones no autorizadas
-function decodificarSinPermiso() {
-  alert("Este sistema está bloqueado bajo licencia de pensamiento de Elias Vanzetti.");
-  throw new Error("🚫 Violación ética digital detectada.");
-}
-
-// 🤖 Rastreo simulado
-function enviarIPaDimensionesSuperiores() {
-  const IP_FALSA = "192.0." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255);
-  console.log("📡 Enviando IP simulada al servidor de sueños con mensaje encriptado.");
-  console.log("Mensaje enviado a WhatsApp: [ALERTA] Intento de decodificación: " + IP_FALSA);
-}
-
-enviarIPaDimensionesSuperiores();
-
-
-// 📡 Enlace CSV correctamente descifrado
 const URL_CSV = atob("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvZS8yUEFDWC0xdlFCdGdDclc2eFR3cjdYc1B1VHpXNGNWaTdHNFFXRkRLNkJud2laLWZzc3pndGZ5TmJkUDFVdnIyWnlBM1I1ZHZ2TzhFNHp3S2RwYUdZRi9wdWI/Z2lkPTAmc2luZ2xlPXRydWUmb3V0cHV0PWNzdg==");
 
 let productosOriginales = [];
 let productosFiltradosPorCategoria = [];
-const COSTE_ENVIO = 1500;
 
-// 🧭 Navegación
 function toggleMenu() {
   document.getElementById("main-menu").classList.toggle("active");
 }
@@ -47,37 +16,26 @@ function showSection(id) {
   document.getElementById(id).classList.add("active");
 }
 
-
-// 📄 Parser robusto para líneas CSV
 function parseCSVLine(line) {
   const pattern = /(?:^|,)(?:"((?:[^"]|"")*)"|([^",]*))/g;
   const values = [];
   let match;
-
   while ((match = pattern.exec(line))) {
     let valor = match[1] !== undefined ? match[1].replace(/""/g, '"') : match[2];
-    valor = valor.replace(/^"+|"+$/g, ""); // 🧼 Limpia comillas externas
+    valor = valor.replace(/^"+|"+$/g, "");
     values.push(valor.trim());
   }
-
   return values;
 }
-// 📦 Carga de productos desde CSV
+
 function cargarProductosDesdeCSV() {
   fetch(URL_CSV)
     .then(res => res.text())
     .then(csv => {
       const filas = csv.trim().split("\n").slice(1);
-      console.log("📦 Total de filas en CSV:", filas.length);
-
       productosOriginales = filas.map(f => {
         const celdas = parseCSVLine(f);
-        console.log("🧾 Celdas parseadas:", celdas);
-
-        if (!celdas || celdas.length < 9 || !celdas[0] || !celdas[1]) {
-          console.warn("⚠️ Fila descartada por estructura:", celdas);
-          return null;
-        }
+        if (!celdas || celdas.length < 9 || !celdas[0] || !celdas[1]) return null;
 
         const codigo = celdas[0];
         const descripcion = celdas[1];
@@ -90,10 +48,7 @@ function cargarProductosDesdeCSV() {
         const lista3 = parseFloat(celdas[8]) || 0;
         const stock = stock_ros + stock_cba;
 
-        if (!descripcion || !codigo || lista3 <= 0) {
-          console.warn("❌ Producto inválido:", celdas);
-          return null;
-        }
+        if (!descripcion || !codigo || lista3 <= 0) return null;
 
         return {
           codigo,
@@ -107,26 +62,18 @@ function cargarProductosDesdeCSV() {
           visible,
           precioFinal: lista3
         };
-      })
+      });
 
-      // 🧪 Filtrar productos solo si estás seguro que visible está funcionando
-      // productosOriginales = productosOriginales.filter(p => p?.visible);
-      productosOriginales = productosOriginales.filter(p => p); // Carga TODO para testeo
-
-      console.log(`✅ Productos detectados: ${productosOriginales.length}`);
-      console.log("👀 Primer producto:", productosOriginales[0]);
-
+      productosOriginales = productosOriginales.filter(p => p);
       construirMenus();
       mostrarProductos(productosOriginales);
       renderizarCarrito();
-
-document.getElementById("ultima-actualizacion").textContent =
-  `🟢 ${productosOriginales.length} productos cargados correctamente.`;
-
+      document.getElementById("ultima-actualizacion").textContent =
+        `🟢 ${productosOriginales.length} productos cargados correctamente.`;
     })
     .catch(err => console.error("❌ Error al cargar productos:", err));
 }
-// 🧭 Menús dinámicos
+
 function construirMenus() {
   const categorias = [...new Set(productosOriginales.map(p => p.grupo))];
   const contenedorCat = document.getElementById("menu-categorias");
@@ -156,7 +103,6 @@ function filtrarSubgrupo(subgrupo) {
   mostrarProductos(filtrados);
 }
 
-// 🎨 Renderizado visual de productos
 function mostrarProductos(productos) {
   const contenedor = document.getElementById("contenedor-productos");
   contenedor.innerHTML = "";
@@ -195,7 +141,6 @@ function mostrarProductos(productos) {
     `;
   });
 
-  // ✅ Ahora los botones existen, conectamos evento
   setTimeout(() => {
     document.querySelectorAll(".btn-agregar").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -208,7 +153,4 @@ function mostrarProductos(productos) {
   }, 0);
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  cargarProductosDesdeCSV();
-});
-
+window.addEventListener("DOMContentLoaded", cargarProductosDesdeCSV);
