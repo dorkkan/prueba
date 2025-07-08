@@ -102,28 +102,22 @@ function cargarProductosDesdeCSV() {
 }
 
 
-const codigo = celdas[0];
-const descripcion = celdas[1]?.replace(/"/g, "").trim();
-const imagenes = celdas[2]?.split("|").map(i => i.trim()) || [];
-const grupo = celdas[3];
-const subgrupo = celdas[4];
-const stock_ros = parseInt(celdas[5]) || 0;
-const stock_cba = parseInt(celdas[6]) || 0;
-const visible = celdas[7]?.trim().toUpperCase() === "SI";
-const lista3 = parseFloat(celdas[8]) || 0;
-
+const codigo = celdas?.[0] || "";
+const descripcion = celdas?.[1]?.replace(/"/g, "").trim() || "";
+const imagenes = celdas?.[2]?.split("|").map(i => i.trim()) || [];
+const grupo = celdas?.[3] || "";
+const subgrupo = celdas?.[4] || "";
+const stock_ros = parseInt(celdas?.[5]) || 0;
+const stock_cba = parseInt(celdas?.[6]) || 0;
+const visible = celdas?.[7]?.trim().toUpperCase() === "SI";
+const lista3 = parseFloat(celdas?.[8]) || 0;
 const stock = stock_ros + stock_cba;
 
-        return {
-          codigo,
-          descripcion,
-          imagenes,
-          grupo,
-          subgrupo,
-          precioFinal: lista3,
-          stock,
-          visible: visible && stock > 0
-        };
+if (!descripcion || !codigo || lista3 <= 0) {
+  console.warn("❌ Producto inválido:", celdas);
+  return null;
+}
+
       }).filter(p => p?.visible);
 
       console.log(`✅ Productos visibles cargados: ${productosOriginales.length}`);
