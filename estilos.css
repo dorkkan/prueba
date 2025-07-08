@@ -14,13 +14,22 @@ header, footer {
   padding: 10px;
 }
 
-.portada img {
-  width: 100%;
-  max-height: 330px;
-  object-fit: cover;
-  border-bottom: 2px solid #00ffea;
+.portada {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000; /* Fondo opcional para que se vea mejor */
+  overflow: hidden;
 }
 
+.portada img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  border-bottom: 2px solid #00ffea;
+}
 nav {
   display: flex;
   flex-wrap: wrap;
