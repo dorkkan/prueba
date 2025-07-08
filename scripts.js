@@ -3,29 +3,31 @@ console.log("Sitio desarrollado por Elias + Copilot ✨");
 let productos = [];
 
 async function cargarProductosDesdeCSV() {
-  const res = await fetch("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvZS8yUEFDWC0xdlFCdGdDclc2eFR3cjdYc1B1VHpXNGNWaTdHNFFXRkRLNkJud2laLWZzc3pndGZ5TmJkUDFVdnIyWnlBM1I1ZHZ2TzhFNHp3S2RwYUdZRi9wdWI/b3V0cHV0PWNzdg==");
+  const urlCifrada = "aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvZS8yUEFDWC0xdlFCdGdDclc2eFR3cjdYc1B1VHpXNGNWaTdHNFFXRkRLNkJud2laLWZzc3pndGZ5TmJkUDFVdnIyWnlBM1I1ZHZ2TzhFNHp3S2RwYUdZRi9wdWI/b3V0cHV0PWNzdg==";
+  const urlReal = atob(urlCifrada); // 🔓 Descifra el link en tiempo real
+
+  const res = await fetch(urlReal);
   const csv = await res.text();
   const filas = csv.split("\n").slice(1);
 
   productos = filas.map(f => {
-    const c = f.split("\t");
+    const c = f.split(","); // O "\t" si tu planilla usa tabulaciones
     return {
       codigo: c[0],
       descripcion: c[1],
       imagenes: c[2].split("|").map(img => img.trim()),
       grupo: c[3],
       subgrupo: c[4],
-      iva: parseInt(c[5]),
-      lista3: parseInt(c[6]),
+      precioFinal: parseInt(c[6]) + parseInt(c[11]),
       stock_ros: parseInt(c[7]),
       stock_cba: parseInt(c[8]),
-      visible: c[9].toLowerCase() === "si",
-      precioFinal: parseInt(c[6]) + parseInt(c[11])
+      visible: c[9]?.toLowerCase().includes("si")
     };
   });
 
   mostrarProductos(productos);
 }
+
 
 function mostrarProductos(lista) {
   const contenedor = document.getElementById("contenedor-productos");
