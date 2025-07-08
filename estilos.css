@@ -152,16 +152,3 @@ nav button:hover {
   .productos-grid {
     grid-template-columns: 1fr;
   }
-
-  nav button,
-  #carrito-toggle {
-    width: 100%;
-    margin-bottom: 6px;
-  }
-
-  #carrito-contenido {
-    right: 0;
-    left: 0;
-    margin: auto;
-  }
-}
