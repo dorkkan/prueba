@@ -96,8 +96,8 @@ function cargarProductosDesdeCSV() {
 
       productosOriginales = filas.map(f => {
         // ✅ Reemplaza comas dentro de comillas por barra segura
-        const corregido = f.replace(/"([^"]*?),([^"]*?)"/g, (_, a, b) => `"${a}/${b}"`);
-        const celdas = corregido.split(",");
+        const celdas = f.split(",");
+
 
         const codigo = celdas[0];
         const descripcion = celdas[1]?.replace(/"/g, "").trim();
