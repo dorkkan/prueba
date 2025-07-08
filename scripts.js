@@ -203,6 +203,12 @@ setTimeout(() => {
 }
 
 
+window.addEventListener("DOMContentLoaded", () => {
+  cargarProductosDesdeCSV();
+});
+document.getElementById("ultima-actualizacion").textContent =
+  `🟢 ${productosOriginales.length} productos cargados correctamente.`;
+
 setTimeout(() => {
   document.querySelectorAll(".btn-agregar").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -213,9 +219,3 @@ setTimeout(() => {
     });
   });
 }, 0);
-
-window.addEventListener("DOMContentLoaded", () => {
-  cargarProductosDesdeCSV();
-});
-document.getElementById("ultima-actualizacion").textContent =
-  `🟢 ${productosOriginales.length} productos cargados correctamente.`;
