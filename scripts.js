@@ -96,7 +96,11 @@ function cargarProductosDesdeCSV() {
 
       productosOriginales = filas.map(f => {
         const celdas = f.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-        if (!celdas || celdas.length < 10) return null;
+       if (!celdas || celdas.length < 9) {
+  console.warn("Fila descartada:", f);
+  return null;
+}
+
 
 const codigo = celdas[0];
 const descripcion = celdas[1]?.replace(/"/g, "").trim();
