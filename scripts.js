@@ -1,4 +1,7 @@
 console.log("👋 Sitio desarrollado por Elias Vanzetti + Copilot ✨ | MLR Hardware - 2025");
+document.getElementById("toggle-theme").addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+});
 
 const URL_CSV = atob("aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvZS8yUEFDWC0xdlFCdGdDclc2eFR3cjdYc1B1VHpXNGNWaTdHNFFXRkRLNkJud2laLWZzc3pndGZ5TmJkUDFVdnIyWnlBM1I1ZHZ2TzhFNHp3S2RwYUdZRi9wdWI/b3V0cHV0PWNzdg==");
 let productosOriginales = [];
