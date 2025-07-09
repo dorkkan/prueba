@@ -104,6 +104,12 @@ function construirSubgrupos(lista) {
     contenedorSub.innerHTML += `<button onclick="activarSubgrupo(this); filtrarSubgrupo('${sub}')">${sub}</button>`;
   });
 }
+function activarSubgrupo(botonSeleccionado) {
+  document.querySelectorAll("#menu-subcategorias button").forEach(btn =>
+    btn.classList.remove("sub-activa")
+  );
+  botonSeleccionado.classList.add("sub-activa");
+}
 
 function filtrarSubgrupo(subgrupo) {
   const filtrados = productosFiltradosPorCategoria.filter(p => p.subgrupo === subgrupo);
