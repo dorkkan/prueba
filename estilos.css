@@ -127,6 +127,12 @@ nav button:hover {
   border: none;
 }
 
+.sub-activa {
+  background-color: #555;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 4px;
+}
 
 /* 🌓 Botón de modo claro/oscuro */
 #toggle-theme {
