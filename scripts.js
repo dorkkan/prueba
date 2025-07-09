@@ -77,11 +77,12 @@ function cargarProductosDesdeCSV() {
 function construirMenus() {
   const categorias = [...new Set(productosOriginales.map(p => p.grupo))];
   const contenedorCat = document.getElementById("menu-categorias");
-  contenedorCat.innerHTML = `<button onclick="mostrarProductos(productosOriginales)">Todas</button>`;
+  contenedorCat.innerHTML = `<button onclick="activarCategoria(this); mostrarProductos(productosOriginales)">Todas</button>`;
   categorias.forEach(cat => {
-    contenedorCat.innerHTML += `<button onclick="filtrarCategoria('${cat}')">${cat}</button>`;
+    contenedorCat.innerHTML += `<button onclick="activarCategoria(this); filtrarCategoria('${cat}')">${cat}</button>`;
   });
 }
+
 
 function filtrarCategoria(categoria) {
   productosFiltradosPorCategoria = productosOriginales.filter(p => p.grupo === categoria);
