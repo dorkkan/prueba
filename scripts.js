@@ -99,9 +99,9 @@ function filtrarCategoria(categoria) {
 function construirSubgrupos(lista) {
   const subgrupos = [...new Set(lista.map(p => p.subgrupo))];
   const contenedorSub = document.getElementById("menu-subcategorias");
-  contenedorSub.innerHTML = `<button onclick="mostrarProductos(productosFiltradosPorCategoria)">Todos</button>`;
+  contenedorSub.innerHTML = `<button onclick="activarSubgrupo(this); mostrarProductos(productosFiltradosPorCategoria)">Todos</button>`;
   subgrupos.forEach(sub => {
-    contenedorSub.innerHTML += `<button onclick="filtrarSubgrupo('${sub}')">${sub}</button>`;
+    contenedorSub.innerHTML += `<button onclick="activarSubgrupo(this); filtrarSubgrupo('${sub}')">${sub}</button>`;
   });
 }
 
