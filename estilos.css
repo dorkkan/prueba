@@ -119,6 +119,11 @@ nav button:hover {
   border: none;
 }
 
+.boton-activo {
+  background-color: #003b6f; /* o cualquier tono que contraste */
+  color: #fff;
+  font-weight: bold;
+  }
 .subcategorias-menu button {
   background-color: var(--subcategoria-bg);
   color: white;
@@ -128,7 +133,7 @@ nav button:hover {
 }
 
 .sub-activa {
-  background-color: #555;
+  background-color: #61969e;
   color: #fff;
   font-weight: bold;
   border-radius: 4px;
