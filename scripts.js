@@ -82,6 +82,12 @@ function construirMenus() {
     contenedorCat.innerHTML += `<button onclick="activarCategoria(this); filtrarCategoria('${cat}')">${cat}</button>`;
   });
 }
+function activarCategoria(botonSeleccionado) {
+  document.querySelectorAll("#menu-categorias button").forEach(btn =>
+    btn.classList.remove("boton-activo")
+  );
+  botonSeleccionado.classList.add("boton-activo");
+}
 
 
 function filtrarCategoria(categoria) {
