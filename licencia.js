@@ -4,7 +4,8 @@
   const clienteID = "FW-MLR-ALPHA-27F5"; // ← Controlás desde tu spreadsheet
 
   // 🔐 Enlace ofuscado (Base64)
-  const enlaceCifrado = "aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2UvMlBBQ1gtMXYTR1Z4ZG83S25BS1dXWFZOdXNUWFlnWGZYRS1TVHB4M2swRGRSVHdGbmhmMzFNeVVuZ1puZV9vbEJ1YzV2RktsQlZpTG5aOExibVhYQnovcHViP2dpZD0wJnNpbmdsZT10cnVlJm91dHB1dD1jc3Y=";
+  const enlaceCifrado = "aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2UvMlBBQ1gtMXZTR3Z4ZG83S25BS1dXWFZOdXNUWFlnWGZYRS1TVHB4M2swRGRSVHdGbmhmMzFNeVVnWm5lV19vbEJ1YzV2RktsQlZpTG5aOELibVhYQnotcHViP2dpZD0wJnNpbmdsZT10cnVlJm91dHB1dD1jc3Y=
+";
 
   async function iniciarValidacion() {
     try {
