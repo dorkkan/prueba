@@ -110,3 +110,9 @@
   font-weight: bold;
   text-transform: uppercase;
 }
+.slider img {
+  display: none;
+}
+.slider img.active {
+  display: block;
+}
