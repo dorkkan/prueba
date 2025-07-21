@@ -165,5 +165,20 @@ function mostrarProductos(productos) {
     });
   }, 0);
 }
+function cambiarSlide(btn, direccion) {
+  const slider = btn.closest(".slider");
+  const imgs = slider.querySelectorAll("img");
+  let indexActual = Array.from(imgs).findIndex(img => img.classList.contains("active"));
+
+  imgs[indexActual].classList.remove("active");
+
+  let nuevoIndex = indexActual + direccion;
+  if (nuevoIndex < 0) nuevoIndex = imgs.length - 1;
+  if (nuevoIndex >= imgs.length) nuevoIndex = 0;
+
+  imgs[nuevoIndex].classList.add("active");
+}
+
+
 
 window.addEventListener("DOMContentLoaded", cargarProductosDesdeCSV);
